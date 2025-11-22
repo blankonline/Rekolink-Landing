@@ -1,6 +1,6 @@
 import { motion, useScroll, useTransform, useInView } from 'motion/react';
 import { useRef, Fragment } from 'react';
-import logoElement from 'figma:asset/eb1932d6271a013ffd128fbf62cc310ac2ec3290.png';
+const logoElement = '';
 
 interface ScrollRevealTextProps {
   text: string;

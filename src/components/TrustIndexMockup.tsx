@@ -1,7 +1,7 @@
 import { motion, useMotionValue, useTransform, useSpring, useScroll } from 'motion/react';
 import { useState, useRef } from 'react';
-import profileImage from 'figma:asset/d6a9483d8011cf2924eb1823d2833a64f1692f34.png';
-import statusBar from 'figma:asset/c4dc17181630d4203ad4b0c8f82f5cdc1e5126de.png';
+const profileImage = '';
+const statusBar = '';
 
 export function TrustIndexMockup() {
   const [isHovered, setIsHovered] = useState(false);

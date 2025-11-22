@@ -1,6 +1,6 @@
 import { motion, useInView } from 'motion/react';
 import { useRef } from 'react';
-import rekolinkLogo from 'figma:asset/c5bcd94301fe9fb5ec98d2c2753e6d8862d75bc6.png';
+const rekolinkLogo = '';
 
 export function FinalCTA() {
   const ref = useRef(null);
