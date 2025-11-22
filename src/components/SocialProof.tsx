@@ -2,9 +2,9 @@ import { motion, useInView, useScroll, useTransform } from 'motion/react';
 import { useRef, useState, useEffect } from 'react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import { Newspaper, Video, ArrowUpRight } from 'lucide-react';
-import lefigaroLogo from 'figma:asset/b97bd282d6d236b079b8a4c44b3567307b43c6dd.png';
-import regardsDirLogo from 'figma:asset/e263c7a3b36a9631f89e83437b38f478e5ab4d0b.png';
-import bfmtvLogo from 'figma:asset/8161d0be860bed6fc7b6241930b290b6106a12bb.png';
+const lefigaroLogo = '';
+const regardsDirLogo = '';
+const bfmtvLogo = '';
 
 export function SocialProof() {
   const ref = useRef(null);

@@ -1,6 +1,7 @@
 import { motion } from 'motion/react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
-import logo from 'figma:asset/62d74bce0746b572ec76c0446517c3320579a6bb.png';
+
+const logo = '';
 
 export function Header() {
   return (
@@ -20,7 +21,7 @@ export function Header() {
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
-            <img 
+            <ImageWithFallback 
               src={logo} 
               alt="Rekolink - Match. Grow. Succeed" 
               className="h-6 w-auto"

@@ -1,12 +1,12 @@
 import { motion, useInView } from 'motion/react';
 import { useRef, useState, useEffect } from 'react';
-import graphImage from 'figma:asset/59a37dfaa456c5608dfc3a2988b9104858427e64.png';
-import centralAvatar from 'figma:asset/d079b4dc55780a0e4a2cd130844e4be7c747c7c4.png';
-import avatar1 from 'figma:asset/74cd9718c44a082d7b58cb71dfd5e5075c7c88fa.png';
-import avatar2 from 'figma:asset/8ec5e3920034d07bb8430a5aede890ba4e0fe795.png';
-import avatar3 from 'figma:asset/d6663159957a6fd5aaf0e4eb27b8b47c73f5a9ee.png';
-import avatar4 from 'figma:asset/a28ae0b32d77d9cfc3e3fc3acb474c9398439200.png';
-import avatar5 from 'figma:asset/2af0c0e1f6f0f48ffd2abdfc7839eb00beda276b.png';
+const graphImage = '';
+const centralAvatar = '';
+const avatar1 = '';
+const avatar2 = '';
+const avatar3 = '';
+const avatar4 = '';
+const avatar5 = '';
 
 interface DataPoint {
   label: string;
