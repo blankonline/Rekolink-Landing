@@ -1,4 +1,4 @@
-import { motion, useScroll, useTransform, useSpring } from 'motion/react';
+import { motion, useScroll, useTransform } from 'motion/react';
 import { Shield, Award, TrendingUp } from 'lucide-react';
 import { TrustIndexMockup } from './TrustIndexMockup';
 import { useRef } from 'react';
