@@ -8,7 +8,6 @@ import { ValueHuman } from './components/ValueHuman';
 import { SocialProof } from './components/SocialProof';
 import { FinalCTA } from './components/FinalCTA';
 import { Footer } from './components/Footer';
-import { ParallaxFloatingElements } from './components/ParallaxFloatingElements';
 import { ScrollRevealText } from './components/ScrollRevealText';
 import { ScrollProgress } from './components/ScrollProgress';
 import { SectionDivider } from './components/SectionDivider';
@@ -18,9 +17,6 @@ export default function App() {
     <div className="min-h-screen bg-white overflow-x-hidden relative">
       {/* Scroll progress indicator */}
       <ScrollProgress />
-      
-      {/* Floating parallax background elements */}
-      <ParallaxFloatingElements />
       
       {/* Main content */}
       <div className="relative z-10">
