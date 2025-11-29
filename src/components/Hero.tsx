@@ -1,7 +1,9 @@
 import { motion, useScroll, useTransform } from 'motion/react';
 import { Shield, Award, TrendingUp } from 'lucide-react';
 import { TrustIndexMockup } from './TrustIndexMockup';
+import { ImageWithFallback } from './figma/ImageWithFallback';
 import { useRef } from 'react';
+import logo from '../assets/top_bar_logo.png';
 
 export function Hero() {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -54,9 +56,40 @@ export function Hero() {
   };
 
   return (
-    <section ref={sectionRef} className="relative overflow-hidden bg-gradient-to-br from-[#F9FCFA] to-white min-h-[80vh] flex items-center pt-20 pb-4">
+    <section ref={sectionRef} className="relative overflow-hidden bg-gradient-to-br from-[#F9FCFA] to-white min-h-[80vh] flex flex-col pt-20 sm:pt-24 lg:pt-28 pb-4">
+      {/* Logo at top with elegant entrance */}
       <motion.div 
-        className="relative max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-20 py-12 lg:py-16 w-full"
+        className="max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-20 w-full mb-14 lg:mb-20"
+        initial={{ opacity: 0, y: -30, scale: 0.9 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ 
+          duration: 0.8, 
+          ease: [0.22, 1, 0.36, 1],
+          delay: 0.1
+        }}
+      >
+        <motion.a 
+          href="/"
+          className="inline-flex items-center group"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.98 }}
+        >
+          <motion.div
+            initial={{ filter: 'blur(10px)' }}
+            animate={{ filter: 'blur(0px)' }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            <ImageWithFallback 
+              src={logo} 
+              alt="Rekolink - Match. Grow. Succeed" 
+              className="h-10 w-auto transition-all duration-300 group-hover:drop-shadow-lg"
+            />
+          </motion.div>
+        </motion.a>
+      </motion.div>
+
+      <motion.div 
+        className="relative max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-20 py-12 lg:py-16 w-full flex-1 flex items-center"
         style={{ opacity, scale }}
       >
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
