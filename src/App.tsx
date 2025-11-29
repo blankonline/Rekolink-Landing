@@ -1,4 +1,3 @@
-import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { ValueBeSeen } from './components/ValueBeSeen';
 import { ValueGrowth } from './components/ValueGrowth';
@@ -20,7 +19,6 @@ export default function App() {
       
       {/* Main content */}
       <div className="relative z-10">
-        <Header />
         <Hero />
         
         {/* Inspirational micro-copy between sections */}

@@ -1,7 +1,9 @@
 import { motion, useScroll, useTransform } from 'motion/react';
 import { Shield, Award, TrendingUp } from 'lucide-react';
 import { TrustIndexMockup } from './TrustIndexMockup';
+import { ImageWithFallback } from './figma/ImageWithFallback';
 import { useRef } from 'react';
+import logo from '../assets/top_bar_logo.png';
 
 export function Hero() {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -54,9 +56,30 @@ export function Hero() {
   };
 
   return (
-    <section ref={sectionRef} className="relative overflow-hidden bg-gradient-to-br from-[#F9FCFA] to-white min-h-[80vh] flex items-center pt-20 pb-4">
+    <section ref={sectionRef} className="relative overflow-hidden bg-gradient-to-br from-[#F9FCFA] to-white min-h-[80vh] flex flex-col pt-8 pb-4">
+      {/* Logo at top */}
       <motion.div 
-        className="relative max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-20 py-12 lg:py-16 w-full"
+        className="max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-20 w-full mb-8"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      >
+        <motion.a 
+          href="/"
+          className="inline-flex items-center"
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+        >
+          <ImageWithFallback 
+            src={logo} 
+            alt="Rekolink - Match. Grow. Succeed" 
+            className="h-8 w-auto"
+          />
+        </motion.a>
+      </motion.div>
+
+      <motion.div 
+        className="relative max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-20 py-12 lg:py-16 w-full flex-1 flex items-center"
         style={{ opacity, scale }}
       >
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
