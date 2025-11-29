@@ -10,8 +10,8 @@ export function Header() {
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
     >
-      <div className="max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-20 py-3">
-        <div className="flex items-center justify-center">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-20 py-2">
+        <div className="flex items-center">
           
           {/* Logo */}
           <motion.a 
@@ -23,7 +23,7 @@ export function Header() {
             <ImageWithFallback 
               src={logo} 
               alt="Rekolink - Match. Grow. Succeed" 
-              className="h-7 w-auto"
+              className="h-6 w-auto"
             />
           </motion.a>
 
