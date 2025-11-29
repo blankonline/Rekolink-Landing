@@ -56,25 +56,35 @@ export function Hero() {
   };
 
   return (
-    <section ref={sectionRef} className="relative overflow-hidden bg-gradient-to-br from-[#F9FCFA] to-white min-h-[80vh] flex flex-col pt-8 pb-4">
-      {/* Logo at top */}
+    <section ref={sectionRef} className="relative overflow-hidden bg-gradient-to-br from-[#F9FCFA] to-white min-h-[80vh] flex flex-col pt-20 sm:pt-24 lg:pt-28 pb-4">
+      {/* Logo at top with elegant entrance */}
       <motion.div 
-        className="max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-20 w-full mb-8"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        className="max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-20 w-full mb-14 lg:mb-20"
+        initial={{ opacity: 0, y: -30, scale: 0.9 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ 
+          duration: 0.8, 
+          ease: [0.22, 1, 0.36, 1],
+          delay: 0.1
+        }}
       >
         <motion.a 
           href="/"
-          className="inline-flex items-center"
-          whileHover={{ scale: 1.02 }}
+          className="inline-flex items-center group"
+          whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.98 }}
         >
-          <ImageWithFallback 
-            src={logo} 
-            alt="Rekolink - Match. Grow. Succeed" 
-            className="h-8 w-auto"
-          />
+          <motion.div
+            initial={{ filter: 'blur(10px)' }}
+            animate={{ filter: 'blur(0px)' }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            <ImageWithFallback 
+              src={logo} 
+              alt="Rekolink - Match. Grow. Succeed" 
+              className="h-10 w-auto transition-all duration-300 group-hover:drop-shadow-lg"
+            />
+          </motion.div>
         </motion.a>
       </motion.div>
 
