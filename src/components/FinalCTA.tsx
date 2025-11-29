@@ -1,6 +1,6 @@
 import { motion, useInView } from 'motion/react';
 import { useRef } from 'react';
-const rekolinkLogo = '';
+import treeImage from '../assets/tree_imgae.png';
 
 export function FinalCTA() {
   const ref = useRef(null);
@@ -705,7 +705,7 @@ export function FinalCTA() {
                   transition={{ duration: 0.6, delay: 0.95, ease: "easeOut" }}
                 >
                   <img
-                    src={rekolinkLogo}
+                    src={treeImage}
                     alt="Rekolink"
                     className="w-full h-full object-contain"
                   />

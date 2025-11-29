@@ -1,7 +1,6 @@
 import { motion } from 'motion/react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
-
-const logo = '';
+import logo from '../assets/top_bar_logo.png';
 
 export function Header() {
   return (

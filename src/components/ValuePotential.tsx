@@ -11,373 +11,322 @@ export function ValuePotential() {
     offset: ["start end", "end start"]
   });
 
-  // Floating UI pieces with enhanced parallax
-  const floatingShapes = [
-    { size: 240, x: '8%', y: '15%', duration: 6, delay: 0, rotation: 15 },
-    { size: 180, x: '75%', y: '25%', duration: 7, delay: 1, rotation: -20 },
-    { size: 200, x: '15%', y: '65%', duration: 8, delay: 2, rotation: 25 },
-    { size: 160, x: '82%', y: '55%', duration: 6.5, delay: 1.5, rotation: -15 },
-    { size: 140, x: '45%', y: '10%', duration: 7.5, delay: 0.5, rotation: 10 },
+  // Skills for the radar chart
+  const skills = [
+    { name: 'Leadership', angle: 0 },
+    { name: 'Technical', angle: 60 },
+    { name: 'Communication', angle: 120 },
+    { name: 'Creativity', angle: 180 },
+    { name: 'Collaboration', angle: 240 },
+    { name: 'Problem Solving', angle: 300 },
   ];
+
+  // Two user profiles with different skill levels
+  const user1Values = [85, 70, 90, 65, 80, 75]; // Green user
+  const user2Values = [60, 90, 70, 85, 65, 80]; // Pink user
+
+  // Calculate points for the radar polygon
+  const getPolygonPoints = (values: number[], centerX: number, centerY: number, maxRadius: number) => {
+    return values.map((value, i) => {
+      const angle = (i * 60 - 90) * (Math.PI / 180);
+      const radius = (value / 100) * maxRadius;
+      const x = centerX + Math.cos(angle) * radius;
+      const y = centerY + Math.sin(angle) * radius;
+      return `${x},${y}`;
+    }).join(' ');
+  };
 
   return (
     <section 
       ref={containerRef}
-      className="relative min-h-[100vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-white to-[#F9FCFA] px-4 sm:px-8"
+      className="relative min-h-[100vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-white to-[#F9FCFA] px-4 sm:px-8 py-20"
     >
-      {/* 3D Wireframe Structure */}
-      <div className="absolute inset-0 opacity-40 pointer-events-none" style={{ perspective: '1000px' }}>
-        {/* Floating 3D cubes that "find their match" and align */}
-        {[...Array(5)].map((_, i) => {
-          const size = 120 + i * 20;
-          const baseX = 20 + i * 15;
-          const baseY = 30 + (i % 2) * 25;
-          const isPink = i % 2 === 0;
-          
-          return (
-            <motion.div
-              key={`cube-${i}`}
-              className="absolute"
-              style={{
-                width: size,
-                height: size,
-                transformStyle: 'preserve-3d',
-              }}
-              animate={{
-                // Start scattered, then move to aligned positions
-                left: [
-                  `${baseX - 10 + Math.random() * 20}%`,
-                  `${baseX}%`,
-                  `${baseX}%`,
-                ],
-                top: [
-                  `${baseY + Math.random() * 30}%`,
-                  `${baseY}%`,
-                  `${baseY}%`,
-                ],
-                // Rotate to find alignment, then sync rotation
-                rotateX: [
-                  Math.random() * 360,
-                  45,
-                  45,
-                  405,
-                ],
-                rotateY: [
-                  Math.random() * 360,
-                  45,
-                  45,
-                  405,
-                ],
-                rotateZ: [
-                  Math.random() * 360,
-                  0,
-                  0,
-                  360,
-                ],
-                scale: [0.7, 1, 1, 1],
-              }}
-              transition={{
-                duration: 15,
-                times: [0, 0.3, 0.7, 1],
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: i * 0.5,
-              }}
-            >
-              {/* Cube faces as wireframe - thicker borders when aligned */}
-              <motion.div 
-                className={`absolute inset-0 ${isPink ? 'border-[#DC8285]' : 'border-[#8CA58F]'}`}
-                style={{ transform: `translateZ(${size/2}px)` }}
-                animate={{
-                  borderWidth: ['2px', '3px', '3px', '2px'],
-                }}
-                transition={{
-                  duration: 15,
-                  times: [0, 0.3, 0.7, 1],
-                  repeat: Infinity,
-                  delay: i * 0.5,
-                }}
-              />
-              <motion.div 
-                className={`absolute inset-0 ${isPink ? 'border-[#DC8285]' : 'border-[#8CA58F]'}`}
-                style={{ transform: `translateZ(-${size/2}px)` }}
-                animate={{
-                  borderWidth: ['2px', '3px', '3px', '2px'],
-                }}
-                transition={{
-                  duration: 15,
-                  times: [0, 0.3, 0.7, 1],
-                  repeat: Infinity,
-                  delay: i * 0.5,
-                }}
-              />
-              <motion.div 
-                className="absolute inset-0 border-[#47634A]"
-                style={{ transform: `rotateY(90deg) translateZ(${size/2}px)` }}
-                animate={{
-                  borderWidth: ['2px', '3px', '3px', '2px'],
-                }}
-                transition={{
-                  duration: 15,
-                  times: [0, 0.3, 0.7, 1],
-                  repeat: Infinity,
-                  delay: i * 0.5,
-                }}
-              />
-              <motion.div 
-                className="absolute inset-0 border-[#47634A]"
-                style={{ transform: `rotateY(90deg) translateZ(-${size/2}px)` }}
-                animate={{
-                  borderWidth: ['2px', '3px', '3px', '2px'],
-                }}
-                transition={{
-                  duration: 15,
-                  times: [0, 0.3, 0.7, 1],
-                  repeat: Infinity,
-                  delay: i * 0.5,
-                }}
-              />
-              <motion.div 
-                className="absolute inset-0 border-[#B4BEB5]"
-                style={{ transform: `rotateX(90deg) translateZ(${size/2}px)` }}
-                animate={{
-                  borderWidth: ['2px', '3px', '3px', '2px'],
-                }}
-                transition={{
-                  duration: 15,
-                  times: [0, 0.3, 0.7, 1],
-                  repeat: Infinity,
-                  delay: i * 0.5,
-                }}
-              />
-              <motion.div 
-                className="absolute inset-0 border-[#B4BEB5]"
-                style={{ transform: `rotateX(90deg) translateZ(-${size/2}px)` }}
-                animate={{
-                  borderWidth: ['2px', '3px', '3px', '2px'],
-                }}
-                transition={{
-                  duration: 15,
-                  times: [0, 0.3, 0.7, 1],
-                  repeat: Infinity,
-                  delay: i * 0.5,
-                }}
-              />
-              
-              {/* "Lock in" indicator when matched */}
-              <motion.div
-                className="absolute inset-0 border-4 border-[#8CA58F] rounded-lg"
-                animate={{
-                  opacity: [0, 0, 1, 0.6, 0],
-                  scale: [1, 1, 1.1, 1, 1],
-                }}
-                transition={{
-                  duration: 15,
-                  times: [0, 0.25, 0.3, 0.35, 0.4],
-                  repeat: Infinity,
-                  delay: i * 0.5,
-                }}
-              />
-            </motion.div>
-          );
-        })}
-
-        {/* Connection lines that appear when cubes "match" */}
-        <svg className="absolute inset-0 w-full h-full">
-          {[...Array(4)].map((_, i) => {
-            const x1 = 20 + i * 15 + 6;
-            const y1 = 30 + (i % 2) * 25 + 6;
-            const x2 = 20 + (i + 1) * 15 + 6;
-            const y2 = 30 + ((i + 1) % 2) * 25 + 6;
-            
-            return (
-              <motion.line
-                key={`connection-${i}`}
-                x1={`${x1}%`}
-                y1={`${y1}%`}
-                x2={`${x2}%`}
-                y2={`${y2}%`}
-                stroke="#8CA58F"
-                strokeWidth="3"
-                strokeLinecap="round"
-                initial={{ pathLength: 0, opacity: 0 }}
-                animate={{
-                  pathLength: [0, 0, 1, 1, 0],
-                  opacity: [0, 0, 0.8, 0.8, 0],
-                  strokeWidth: [3, 3, 5, 5, 3],
-                }}
-                transition={{
-                  duration: 15,
-                  times: [0, 0.28, 0.32, 0.65, 0.7],
-                  delay: i * 0.5 + 0.3,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-              />
-            );
-          })}
-        </svg>
-
-        {/* Nodes that pulse brightly when connection is made */}
-        {[...Array(5)].map((_, i) => {
-          const x = 20 + i * 15 + 6;
-          const y = 30 + (i % 2) * 25 + 6;
-          
-          return (
-            <motion.div
-              key={`node-${i}`}
-              className="absolute rounded-full bg-[#8CA58F]"
-              style={{
-                left: `${x}%`,
-                top: `${y}%`,
-                boxShadow: '0 0 20px rgba(140, 165, 143, 0.6)',
-              }}
-              animate={{
-                width: ['8px', '8px', '16px', '12px', '8px'],
-                height: ['8px', '8px', '16px', '12px', '8px'],
-                opacity: [0.3, 0.3, 1, 0.8, 0.3],
-                boxShadow: [
-                  '0 0 10px rgba(140, 165, 143, 0.3)',
-                  '0 0 10px rgba(140, 165, 143, 0.3)',
-                  '0 0 40px rgba(140, 165, 143, 1)',
-                  '0 0 30px rgba(140, 165, 143, 0.8)',
-                  '0 0 10px rgba(140, 165, 143, 0.3)',
-                ],
-              }}
-              transition={{
-                duration: 15,
-                times: [0, 0.25, 0.3, 0.35, 0.4],
-                delay: i * 0.5,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-            />
-          );
-        })}
-
-        {/* Synchronized orbiting ring that represents alignment */}
-        <motion.div
-          className="absolute left-1/2 top-1/2 rounded-full border-[#47634A]"
-          style={{
-            width: 350,
-            height: 350,
-            marginLeft: -175,
-            marginTop: -175,
-            transformStyle: 'preserve-3d',
-          }}
-          animate={{
-            rotateX: [70, 70, 0, 0, 70],
-            rotateZ: [0, 0, 360, 360, 720],
-            borderWidth: ['2px', '2px', '4px', '4px', '2px'],
-            opacity: [0.3, 0.3, 0.9, 0.9, 0.3],
-          }}
-          transition={{
-            duration: 15,
-            times: [0, 0.25, 0.3, 0.65, 0.7],
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        />
-      </div>
-
-      {/* Floating blurred UI shapes with scroll parallax */}
-      {floatingShapes.map((shape, index) => (
-        <motion.div
-          key={index}
-          className="absolute rounded-3xl bg-gradient-to-br from-[#B4BEB5] to-[#47634A] blur-2xl"
-          style={{
-            width: shape.size,
-            height: shape.size,
-            left: shape.x,
-            top: shape.y,
-            opacity: 0.08,
-            y: useTransform(
-              scrollYProgress, 
-              [0, 1], 
-              [index % 2 === 0 ? 50 : -50, index % 2 === 0 ? -50 : 50]
-            ),
-          }}
-          animate={{
-            y: [0, -40, 0],
-            x: [0, 30, 0],
-            rotate: [shape.rotation, shape.rotation + 10, shape.rotation],
-            scale: [1, 1.15, 1],
-          }}
-          transition={{
-            duration: shape.duration,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: shape.delay
-          }}
-        />
-      ))}
-
       <motion.div 
         ref={ref}
-        className="relative max-w-[1440px] mx-auto text-center z-10"
+        className="relative max-w-[1440px] mx-auto z-10 w-full"
         style={{ 
           opacity: useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0, 1, 1, 0]),
           scale: useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0.9, 1, 1, 0.9])
         }}
       >
-        {/* Headline with shimmer effect */}
-        <div className="relative inline-block mb-8">
-          <motion.h2
-            className="text-[#1A1A1A] relative z-10"
-            style={{
-              fontSize: 'clamp(40px, 6vw, 80px)',
-              fontWeight: 700,
-              lineHeight: '110%',
-              letterSpacing: '-0.03em'
-            }}
-            initial={{ opacity: 0, x: -50 }}
-            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
-            transition={{
-              duration: 1,
-              ease: [0.22, 1, 0.36, 1]
-            }}
-          >
-            Where Potential Finds Its <span className="text-[#8CA58F]">Match.</span>
-          </motion.h2>
-        </div>
+        <div className="grid lg:grid-cols-2 gap-16 items-center">
+          {/* Left side - Text content */}
+          <div className="text-center lg:text-left">
+            {/* Headline with shimmer effect */}
+            <div className="relative inline-block mb-8">
+              <motion.h2
+                className="text-[#1A1A1A] relative z-10"
+                style={{
+                  fontSize: 'clamp(40px, 6vw, 80px)',
+                  fontWeight: 700,
+                  lineHeight: '110%',
+                  letterSpacing: '-0.03em'
+                }}
+                initial={{ opacity: 0, x: -50 }}
+                animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
+                transition={{
+                  duration: 1,
+                  ease: [0.22, 1, 0.36, 1]
+                }}
+              >
+                Where Potential Finds Its <span className="text-[#8CA58F]">Match.</span>
+              </motion.h2>
+            </div>
 
-        {/* Text with split reveal */}
-        <motion.div
-          className="max-w-[800px] mx-auto space-y-4"
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-          transition={{
-            duration: 0.8,
-            delay: 0.5,
-            ease: "easeOut"
-          }}
-        >
-          <motion.p 
-            className="text-[#4A4A4A]"
-            style={{
-              fontSize: 'clamp(18px, 2.5vw, 28px)',
-              lineHeight: '150%'
-            }}
-            initial={{ opacity: 0, x: -30 }}
-            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
-            transition={{ duration: 0.6, delay: 0.7 }}
+            {/* Text with split reveal */}
+            <motion.div
+              className="max-w-[600px] mx-auto lg:mx-0 space-y-4 mb-8"
+              initial={{ opacity: 0, y: 30 }}
+              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+              transition={{
+                duration: 0.8,
+                delay: 0.5,
+                ease: "easeOut"
+              }}
+            >
+              <motion.p 
+                className="text-[#4A4A4A]"
+                style={{
+                  fontSize: 'clamp(18px, 2.5vw, 28px)',
+                  lineHeight: '150%'
+                }}
+                initial={{ opacity: 0, x: -30 }}
+                animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
+                transition={{ duration: 0.6, delay: 0.7 }}
+              >
+                "Rekolink reveals what truly makes you valuable:
+              </motion.p>
+              <motion.p 
+                className="text-[#8CA58F]"
+                style={{
+                  fontSize: 'clamp(18px, 2.5vw, 28px)',
+                  lineHeight: '150%',
+                  fontWeight: 500
+                }}
+                initial={{ opacity: 0, x: 30 }}
+                animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 30 }}
+                transition={{ duration: 0.6, delay: 0.9 }}
+              >
+                your skills, your impact, your evolution.
+              </motion.p>
+            </motion.div>
+
+            {/* Legend for the graph */}
+            <motion.div
+              className="flex flex-col sm:flex-row gap-6 justify-center lg:justify-start"
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+              transition={{ duration: 0.6, delay: 1.2 }}
+            >
+              <div className="flex items-center gap-3 bg-white/60 rounded-xl px-4 py-3 border border-[#E8E8E8]">
+                <div className="w-4 h-4 rounded-full bg-[#8CA58F]" />
+                <span className="text-[#4A4A4A]" style={{ fontSize: '14px' }}>Your Profile</span>
+              </div>
+              <div className="flex items-center gap-3 bg-white/60 rounded-xl px-4 py-3 border border-[#E8E8E8]">
+                <div className="w-4 h-4 rounded-full bg-[#DC8285]" />
+                <span className="text-[#4A4A4A]" style={{ fontSize: '14px' }}>Matched Opportunity</span>
+              </div>
+            </motion.div>
+
+            {/* Description */}
+            <motion.p
+              className="mt-6 text-[#6A6A6A] max-w-[500px] mx-auto lg:mx-0"
+              style={{ fontSize: '15px', lineHeight: '160%' }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+              transition={{ duration: 0.6, delay: 1.4 }}
+            >
+              Compare skill profiles to find the perfect alignment between your strengths and opportunity requirements.
+            </motion.p>
+          </div>
+
+          {/* Right side - Radar/Web Graph */}
+          <motion.div
+            className="relative flex items-center justify-center"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
+            transition={{ duration: 1, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
           >
-            Rekolink reveals what truly makes you valuable:
-          </motion.p>
-          <motion.p 
-            className="text-[#8CA58F]"
-            style={{
-              fontSize: 'clamp(18px, 2.5vw, 28px)',
-              lineHeight: '150%',
-              fontWeight: 500
-            }}
-            initial={{ opacity: 0, x: 30 }}
-            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 30 }}
-            transition={{ duration: 0.6, delay: 0.9 }}
-          >
-            your skills, your impact, your evolution.
-          </motion.p>
-        </motion.div>
+            <div className="relative w-full max-w-[500px] h-[500px]">
+              <svg viewBox="0 0 400 400" className="w-full h-full">
+                <defs>
+                  {/* Gradient for user 1 (green) */}
+                  <linearGradient id="user1Gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#8CA58F" stopOpacity="0.4" />
+                    <stop offset="100%" stopColor="#47634A" stopOpacity="0.2" />
+                  </linearGradient>
+                  
+                  {/* Gradient for user 2 (pink) */}
+                  <linearGradient id="user2Gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#DC8285" stopOpacity="0.4" />
+                    <stop offset="100%" stopColor="#B75A5D" stopOpacity="0.2" />
+                  </linearGradient>
+                </defs>
+
+                {/* Grid circles */}
+                {[40, 80, 120, 160].map((radius, i) => (
+                  <motion.circle
+                    key={`grid-circle-${i}`}
+                    cx="200"
+                    cy="200"
+                    r={radius}
+                    fill="none"
+                    stroke="#B4BEB5"
+                    strokeWidth="1"
+                    strokeOpacity={0.3 - i * 0.05}
+                    initial={{ r: 0, opacity: 0 }}
+                    animate={isInView ? { r: radius, opacity: 1 } : { r: 0, opacity: 0 }}
+                    transition={{ duration: 0.6, delay: 0.8 + i * 0.1 }}
+                  />
+                ))}
+
+                {/* Axis lines */}
+                {skills.map((skill, i) => {
+                  const angle = (skill.angle - 90) * (Math.PI / 180);
+                  const x2 = 200 + Math.cos(angle) * 160;
+                  const y2 = 200 + Math.sin(angle) * 160;
+                  
+                  return (
+                    <motion.line
+                      key={`axis-${i}`}
+                      x1="200"
+                      y1="200"
+                      x2="200"
+                      y2="200"
+                      stroke="#B4BEB5"
+                      strokeWidth="1"
+                      strokeOpacity="0.4"
+                      initial={{ x2: 200, y2: 200, opacity: 0 }}
+                      animate={isInView ? { x2, y2, opacity: 1 } : { x2: 200, y2: 200, opacity: 0 }}
+                      transition={{ duration: 0.5, delay: 1.2 + i * 0.08 }}
+                    />
+                  );
+                })}
+
+                {/* User 2 polygon (pink - behind) */}
+                <motion.polygon
+                  points={getPolygonPoints(user2Values, 200, 200, 160)}
+                  fill="url(#user2Gradient)"
+                  stroke="#DC8285"
+                  strokeWidth="2"
+                  strokeOpacity="0.8"
+                  initial={{ opacity: 0, scale: 0 }}
+                  animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0 }}
+                  transition={{ duration: 0.8, delay: 1.8, ease: [0.22, 1, 0.36, 1] }}
+                  style={{ transformOrigin: '200px 200px' }}
+                />
+
+                {/* User 1 polygon (green - in front) */}
+                <motion.polygon
+                  points={getPolygonPoints(user1Values, 200, 200, 160)}
+                  fill="url(#user1Gradient)"
+                  stroke="#47634A"
+                  strokeWidth="2"
+                  strokeOpacity="0.9"
+                  initial={{ opacity: 0, scale: 0 }}
+                  animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0 }}
+                  transition={{ duration: 0.8, delay: 1.6, ease: [0.22, 1, 0.36, 1] }}
+                  style={{ transformOrigin: '200px 200px' }}
+                />
+
+                {/* Data points for user 1 */}
+                {user1Values.map((value, i) => {
+                  const angle = (i * 60 - 90) * (Math.PI / 180);
+                  const radius = (value / 100) * 160;
+                  const cx = 200 + Math.cos(angle) * radius;
+                  const cy = 200 + Math.sin(angle) * radius;
+                  
+                  return (
+                    <motion.circle
+                      key={`user1-point-${i}`}
+                      cx={cx}
+                      cy={cy}
+                      r="5"
+                      fill="#FFFFFF"
+                      stroke="#47634A"
+                      strokeWidth="2"
+                      initial={{ scale: 0, opacity: 0 }}
+                      animate={isInView ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
+                      transition={{ duration: 0.4, delay: 2.0 + i * 0.1, type: "spring", stiffness: 300 }}
+                      style={{ transformOrigin: `${cx}px ${cy}px` }}
+                    />
+                  );
+                })}
+
+                {/* Data points for user 2 */}
+                {user2Values.map((value, i) => {
+                  const angle = (i * 60 - 90) * (Math.PI / 180);
+                  const radius = (value / 100) * 160;
+                  const cx = 200 + Math.cos(angle) * radius;
+                  const cy = 200 + Math.sin(angle) * radius;
+                  
+                  return (
+                    <motion.circle
+                      key={`user2-point-${i}`}
+                      cx={cx}
+                      cy={cy}
+                      r="5"
+                      fill="#FFFFFF"
+                      stroke="#DC8285"
+                      strokeWidth="2"
+                      initial={{ scale: 0, opacity: 0 }}
+                      animate={isInView ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
+                      transition={{ duration: 0.4, delay: 2.2 + i * 0.1, type: "spring", stiffness: 300 }}
+                      style={{ transformOrigin: `${cx}px ${cy}px` }}
+                    />
+                  );
+                })}
+
+                {/* Center point */}
+                <motion.circle
+                  cx="200"
+                  cy="200"
+                  r="6"
+                  fill="#47634A"
+                  initial={{ scale: 0 }}
+                  animate={isInView ? { scale: 1 } : { scale: 0 }}
+                  transition={{ duration: 0.4, delay: 1.5, type: "spring", stiffness: 300 }}
+                />
+
+                {/* Pulsing ring at center */}
+                <motion.circle
+                  cx="200"
+                  cy="200"
+                  r="6"
+                  fill="none"
+                  stroke="#8CA58F"
+                  strokeWidth="2"
+                  initial={{ r: 6, opacity: 0 }}
+                  animate={isInView ? {
+                    r: [6, 25, 6],
+                    opacity: [0.8, 0, 0.8],
+                  } : { r: 6, opacity: 0 }}
+                  transition={{
+                    duration: 2,
+                    delay: 2.5,
+                    repeat: Infinity,
+                    ease: "easeOut"
+                  }}
+                />
+              </svg>
+
+              {/* Floating ambient glow */}
+              <motion.div
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-[#8CA58F] rounded-full blur-3xl pointer-events-none"
+                animate={{
+                  opacity: [0.08, 0.15, 0.08],
+                  scale: [0.9, 1.1, 0.9]
+                }}
+                transition={{
+                  duration: 4,
+                  delay: 2,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              />
+            </div>
+          </motion.div>
+        </div>
       </motion.div>
     </section>
   );

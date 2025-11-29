@@ -1,107 +1,55 @@
 import { motion, useInView } from 'motion/react';
 import { useRef, useState, useEffect } from 'react';
-const graphImage = '';
-const centralAvatar = '';
-const avatar1 = '';
-const avatar2 = '';
-const avatar3 = '';
-const avatar4 = '';
-const avatar5 = '';
 
-interface DataPoint {
-  label: string;
-  value: number;
-  color: string;
-  delay: number;
-}
-
-// CountUpNumber component
-interface CountUpNumberProps {
-  value: number;
-  isInView: boolean;
-  delay: number;
-}
-
-function CountUpNumber({ value, isInView, delay }: CountUpNumberProps) {
-  const [countUp, setCountUp] = useState(0);
+// CountUp component for animated numbers
+function CountUpNumber({ value, suffix = '', isInView, delay }: { value: number; suffix?: string; isInView: boolean; delay: number }) {
+  const [count, setCount] = useState(0);
 
   useEffect(() => {
     if (!isInView) return;
     
-    // Delay before starting the count
-    const delayTimer = setTimeout(() => {
+    const timer = setTimeout(() => {
       let start = 0;
-      const end = value;
       const duration = 1500;
-      const increment = end / (duration / 16);
+      const increment = value / (duration / 16);
       
-      const timer = setInterval(() => {
+      const counter = setInterval(() => {
         start += increment;
-        if (start >= end) {
-          setCountUp(end);
-          clearInterval(timer);
+        if (start >= value) {
+          setCount(value);
+          clearInterval(counter);
         } else {
-          setCountUp(Math.floor(start));
+          setCount(Math.floor(start));
         }
       }, 16);
       
-      return () => clearInterval(timer);
+      return () => clearInterval(counter);
     }, delay * 1000);
     
-    return () => clearTimeout(delayTimer);
+    return () => clearTimeout(timer);
   }, [isInView, value, delay]);
 
-  return (
-    <motion.div
-      className="text-[#1A1A1A]"
-      style={{ fontSize: '32px', fontWeight: 700 }}
-      initial={{ opacity: 0, scale: 0.5 }}
-      animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.5 }}
-      transition={{ 
-        duration: 0.6, 
-        delay: delay,
-        type: "spring",
-        stiffness: 200
-      }}
-    >
-      {countUp}%
-    </motion.div>
-  );
+  return <span>{count}{suffix}</span>;
 }
 
 export function AnimatedGraph() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.3 });
-  const [countUp, setCountUp] = useState(0);
 
-  const dataPoints: DataPoint[] = [
-    { label: 'Skills Verified', value: 85, color: '#326C56', delay: 0 },
-    { label: 'Growth Rate', value: 92, color: '#4A7C65', delay: 0.2 },
-    { label: 'Trust Score', value: 78, color: '#5E8D75', delay: 0.4 },
-    { label: 'Recognition', value: 88, color: '#B7E1D2', delay: 0.6 },
+  // Skills data with progress values
+  const skills = [
+    { name: 'Leadership', value: 85, color: '#47634A' },
+    { name: 'Communication', value: 92, color: '#8CA58F' },
+    { name: 'Technical Skills', value: 78, color: '#5E8D75' },
+    { name: 'Collaboration', value: 88, color: '#326C56' },
   ];
 
-  // Counter animation for the main stat
-  useEffect(() => {
-    if (!isInView) return;
-    
-    let start = 0;
-    const end = 87;
-    const duration = 2000;
-    const increment = end / (duration / 16);
-    
-    const timer = setInterval(() => {
-      start += increment;
-      if (start >= end) {
-        setCountUp(end);
-        clearInterval(timer);
-      } else {
-        setCountUp(Math.floor(start));
-      }
-    }, 16);
-    
-    return () => clearInterval(timer);
-  }, [isInView]);
+  // Key metrics
+  const metrics = [
+    { label: 'Skills Verified', value: 24, icon: '✓' },
+    { label: 'Endorsements', value: 156, icon: '★' },
+    { label: 'Trust Score', value: 94, suffix: '%', icon: '◈' },
+  ];
 
   return (
     <section 
@@ -278,321 +226,104 @@ export function AnimatedGraph() {
             </motion.div>
           </motion.div>
 
-          {/* Right side - Animated network visualization */}
+          {/* Right side - Skills Dashboard visualization */}
           <motion.div
             className="relative flex items-center justify-center"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
             transition={{ duration: 1, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
           >
-            {/* Main graph container */}
-            <div className="relative w-full max-w-[500px] h-[500px]">
+            <div className="relative w-full max-w-[500px] bg-gradient-to-br from-[#E8F1EC] to-[#F0F5F2] rounded-3xl p-8 overflow-hidden">
               
-              {/* Network connection visualization */}
-              <svg 
-                viewBox="0 0 400 400" 
-                className="w-full h-full"
-              >
-                <defs>
-                  {/* Gradient definitions */}
-                  <linearGradient id="lineGradient1" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#8CA58F" stopOpacity="0.6" />
-                    <stop offset="100%" stopColor="#8CA58F" stopOpacity="0.2" />
-                  </linearGradient>
-                  
-                  {/* Glow filter */}
-                  <filter id="nodeGlow">
-                    <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
-                    <feMerge>
-                      <feMergeNode in="coloredBlur"/>
-                      <feMergeNode in="SourceGraphic"/>
-                    </feMerge>
-                  </filter>
-                </defs>
-
-                {/* Connection lines */}
-                {[
-                  { x1: 200, y1: 200, x2: 320, y2: 200, delay: 1.2 },
-                  { x1: 200, y1: 200, x2: 292, y2: 277, delay: 1.3 },
-                  { x1: 200, y1: 200, x2: 221, y2: 318, delay: 1.4 },
-                  { x1: 200, y1: 200, x2: 140, y2: 304, delay: 1.5 },
-                  { x1: 200, y1: 200, x2: 87, y2: 241, delay: 1.6 },
-                  { x1: 200, y1: 200, x2: 87, y2: 159, delay: 1.7 },
-                  { x1: 200, y1: 200, x2: 140, y2: 96, delay: 1.8 },
-                  { x1: 200, y1: 200, x2: 221, y2: 82, delay: 1.9 },
-                  { x1: 200, y1: 200, x2: 292, y2: 123, delay: 2.0 },
-                ].map((line, i) => (
-                  <motion.line
-                    key={`line-${i}`}
-                    x1={line.x1}
-                    y1={line.y1}
-                    x2={line.x1}
-                    y2={line.y1}
-                    stroke="url(#lineGradient1)"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    initial={{ x2: line.x1, y2: line.y1, opacity: 0 }}
-                    animate={isInView ? { 
-                      x2: line.x2, 
-                      y2: line.y2,
-                      opacity: 1
-                    } : { 
-                      x2: line.x1, 
-                      y2: line.y1,
-                      opacity: 0 
-                    }}
-                    transition={{ 
-                      duration: 0.8, 
-                      delay: line.delay,
-                      ease: [0.22, 1, 0.36, 1]
-                    }}
-                  />
-                ))}
-
-                {/* Satellite nodes */}
-                {[
-                  { cx: 320, cy: 200, delay: 1.2, avatar: avatar1 },
-                  { cx: 292, cy: 277, delay: 1.3, avatar: avatar4 },
-                  { cx: 221, cy: 318, delay: 1.4, avatar: avatar2 },
-                  { cx: 140, cy: 304, delay: 1.5, avatar: avatar5 },
-                  { cx: 87, cy: 241, delay: 1.6, avatar: null },
-                  { cx: 87, cy: 159, delay: 1.7, avatar: avatar3 },
-                  { cx: 140, cy: 96, delay: 1.8, avatar: null },
-                  { cx: 221, cy: 82, delay: 1.9, avatar: null },
-                  { cx: 292, cy: 123, delay: 2.0, avatar: null },
-                ].map((node, i) => {
-                  const isPink = i % 3 === 0;
-                  const hasAvatar = node.avatar !== null;
-                  
-                  return (
-                    <g key={`node-${i}`}>
-                      {hasAvatar ? (
-                        // Avatar node with circular image
-                        <>
-                          <defs>
-                            <clipPath id={`avatarClip${i}`}>
-                              <circle cx={node.cx} cy={node.cy} r="22" />
-                            </clipPath>
-                          </defs>
-                          <motion.image
-                            href={node.avatar}
-                            x={node.cx - 22}
-                            y={node.cy - 22}
-                            width="44"
-                            height="44"
-                            clipPath={`url(#avatarClip${i})`}
-                            preserveAspectRatio="xMidYMid slice"
-                            initial={{ scale: 0, opacity: 0 }}
-                            animate={isInView ? { 
-                              scale: 1, 
-                              opacity: 1
-                            } : { scale: 0, opacity: 0 }}
-                            transition={{ 
-                              duration: 0.5, 
-                              delay: node.delay,
-                              type: "spring",
-                              stiffness: 300
-                            }}
-                            style={{ transformOrigin: `${node.cx}px ${node.cy}px` }}
-                          />
-                        </>
-                      ) : (
-                        // Regular node with icon
-                        <>
-                          <motion.circle
-                            cx={node.cx}
-                            cy={node.cy}
-                            r="22"
-                            fill={isPink ? '#F0C8C9' : '#B4BEB5'}
-                            filter="url(#nodeGlow)"
-                            initial={{ scale: 0, opacity: 0 }}
-                            animate={isInView ? { 
-                              scale: 1, 
-                              opacity: 1
-                            } : { scale: 0, opacity: 0 }}
-                            transition={{ 
-                              duration: 0.5, 
-                              delay: node.delay,
-                              type: "spring",
-                              stiffness: 300
-                            }}
-                            style={{ transformOrigin: `${node.cx}px ${node.cy}px` }}
-                          />
-                          
-                          {/* User icon simulation */}
-                          <motion.path
-                            d={`M ${node.cx} ${node.cy - 6} 
-                                a 4 4 0 1 1 0 0.1
-                                M ${node.cx - 8} ${node.cy + 8}
-                                a 8 6 0 0 1 16 0`}
-                            fill="none"
-                            stroke={isPink ? '#DC8285' : '#47634A'}
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            initial={{ opacity: 0 }}
-                            animate={isInView ? { opacity: 0.7 } : { opacity: 0 }}
-                            transition={{ duration: 0.3, delay: node.delay + 0.3 }}
-                          />
-                        </>
-                      )}
-                    </g>
-                  );
-                })}
-
-                {/* Central node - larger */}
-                <g>
-                  {/* Pulsing ring around center */}
-                  <motion.circle
-                    cx="200"
-                    cy="200"
-                    r="50"
-                    fill="none"
-                    stroke="#8CA58F"
-                    strokeWidth="2"
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={isInView ? {
-                      opacity: [0, 0.4, 0],
-                      scale: [0.8, 1.3, 1.5],
-                    } : { opacity: 0, scale: 0.8 }}
-                    transition={{
-                      duration: 2,
-                      delay: 2,
-                      repeat: Infinity,
-                      ease: "easeOut"
-                    }}
-                    style={{ transformOrigin: '200px 200px' }}
-                  />
-                  
-                  {/* Central avatar image - without clipping to show the badge */}
-                  <motion.image
-                    href={centralAvatar}
-                    x="140"
-                    y="140"
-                    width="120"
-                    height="120"
-                    preserveAspectRatio="xMidYMid meet"
-                    initial={{ scale: 0, opacity: 0 }}
-                    animate={isInView ? { 
-                      scale: 1, 
-                      opacity: 1
-                    } : { scale: 0, opacity: 0 }}
-                    transition={{ 
-                      duration: 0.6, 
-                      delay: 1.9,
-                      type: "spring",
-                      stiffness: 200
-                    }}
-                    style={{ transformOrigin: '200px 200px' }}
-                  />
-                </g>
-
-                {/* Animated data flow particles */}
-                {[...Array(18)].map((_, i) => {
-                  const paths = [
-                    { from: [200, 200], to: [320, 200] },
-                    { from: [200, 200], to: [292, 277] },
-                    { from: [200, 200], to: [221, 318] },
-                    { from: [200, 200], to: [140, 304] },
-                    { from: [200, 200], to: [87, 241] },
-                    { from: [200, 200], to: [87, 159] },
-                    { from: [200, 200], to: [140, 96] },
-                    { from: [200, 200], to: [221, 82] },
-                    { from: [200, 200], to: [292, 123] },
-                  ];
-                  const pathIndex = i % 9;
-                  const path = paths[pathIndex];
-                  const isPink = i % 4 === 0;
-                  
-                  return (
-                    <motion.circle
-                      key={`particle-${i}`}
-                      r="2.5"
-                      fill={isPink ? '#DC8285' : '#8CA58F'}
-                      initial={{ 
-                        cx: path.from[0], 
-                        cy: path.from[1],
-                        opacity: 0 
-                      }}
-                      animate={isInView ? {
-                        cx: [path.from[0], path.to[0], path.from[0]],
-                        cy: [path.from[1], path.to[1], path.from[1]],
-                        opacity: [0, 1, 0],
-                      } : {
-                        cx: path.from[0],
-                        cy: path.from[1],
-                        opacity: 0
-                      }}
-                      transition={{
-                        duration: 2.5,
-                        delay: 2.5 + i * 0.3,
-                        repeat: Infinity,
-                        ease: "easeInOut"
-                      }}
-                    />
-                  );
-                })}
-              </svg>
-
-              {/* Floating ambient particles */}
-              {[...Array(8)].map((_, i) => {
-                const angle = (i * 45) * (Math.PI / 180);
-                const distance = 180;
-                const x = 50 + (Math.cos(angle) * distance / 500 * 100);
-                const y = 50 + (Math.sin(angle) * distance / 400 * 100);
-                const isPink = i % 2 === 0;
-                
-                return (
+              {/* Key Metrics Row */}
+              <div className="flex justify-between mb-8">
+                {metrics.map((metric, i) => (
                   <motion.div
-                    key={`ambient-${i}`}
-                    className={`absolute w-1.5 h-1.5 rounded-full ${isPink ? 'bg-[#DC8285]' : 'bg-[#B4BEB5]'}`}
-                    style={{
-                      left: `${x}%`,
-                      top: `${y}%`,
-                    }}
-                    animate={{
-                      y: [0, -15, 0],
-                      opacity: [0.2, 0.6, 0.2],
-                      scale: [1, 1.3, 1]
-                    }}
-                    transition={{
-                      duration: 3 + i * 0.4,
-                      delay: 2.5 + i * 0.2,
-                      repeat: Infinity,
-                      ease: "easeInOut"
-                    }}
-                  />
-                );
-              })}
+                    key={metric.label}
+                    className="text-center"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                    transition={{ duration: 0.5, delay: 0.8 + i * 0.15 }}
+                  >
+                    <motion.div
+                      className="w-12 h-12 mx-auto mb-2 rounded-full bg-white shadow-sm flex items-center justify-center"
+                      initial={{ scale: 0 }}
+                      animate={isInView ? { scale: 1 } : { scale: 0 }}
+                      transition={{ duration: 0.4, delay: 0.9 + i * 0.15, type: "spring" }}
+                    >
+                      <span className="text-[#47634A] text-lg">{metric.icon}</span>
+                    </motion.div>
+                    <div className="text-[#1A1A1A] font-bold text-2xl">
+                      <CountUpNumber value={metric.value} suffix={metric.suffix} isInView={isInView} delay={1.0 + i * 0.15} />
+                    </div>
+                    <div className="text-[#6A6A6A] text-xs mt-1">{metric.label}</div>
+                  </motion.div>
+                ))}
+              </div>
 
-              {/* Pulsing glow effect - Green */}
+              {/* Skills Progress Bars */}
+              <div className="space-y-5">
+                <motion.div
+                  className="text-[#1A1A1A] font-semibold text-sm mb-4"
+                  initial={{ opacity: 0 }}
+                  animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+                  transition={{ duration: 0.5, delay: 1.3 }}
+                >
+                  Verified Skills
+                </motion.div>
+                
+                {skills.map((skill, i) => (
+                  <motion.div
+                    key={skill.name}
+                    className="space-y-2"
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
+                    transition={{ duration: 0.5, delay: 1.4 + i * 0.12 }}
+                  >
+                    <div className="flex justify-between items-center">
+                      <span className="text-[#4A4A4A] text-sm">{skill.name}</span>
+                      <span className="text-[#47634A] font-semibold text-sm">{skill.value}%</span>
+                    </div>
+                    <div className="h-2 bg-white/60 rounded-full overflow-hidden">
+                      <motion.div
+                        className="h-full rounded-full"
+                        style={{ backgroundColor: skill.color }}
+                        initial={{ width: 0 }}
+                        animate={isInView ? { width: `${skill.value}%` } : { width: 0 }}
+                        transition={{ duration: 1, delay: 1.5 + i * 0.12, ease: [0.22, 1, 0.36, 1] }}
+                      />
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* Growth Indicator */}
               <motion.div
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-[#8CA58F] rounded-full blur-3xl pointer-events-none"
-                animate={{
-                  opacity: [0.05, 0.12, 0.05],
-                  scale: [0.95, 1.05, 0.95]
-                }}
-                transition={{
-                  duration: 4,
-                  delay: 2,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-              />
-              
-              {/* Pulsing glow effect - Pink */}
+                className="mt-8 p-4 bg-white/50 rounded-2xl flex items-center justify-between"
+                initial={{ opacity: 0, y: 20 }}
+                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                transition={{ duration: 0.5, delay: 2.0 }}
+              >
+                <div>
+                  <div className="text-[#6A6A6A] text-xs">Overall Growth</div>
+                  <div className="text-[#1A1A1A] font-bold text-lg">This Quarter</div>
+                </div>
+                <motion.div
+                  className="bg-[#47634A] text-white px-4 py-2 rounded-xl"
+                  initial={{ scale: 0 }}
+                  animate={isInView ? { scale: 1 } : { scale: 0 }}
+                  transition={{ duration: 0.4, delay: 2.2, type: "spring" }}
+                >
+                  <div className="text-xl font-bold">+27%</div>
+                </motion.div>
+              </motion.div>
+
+              {/* Subtle decorative ring */}
               <motion.div
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-[#DC8285] rounded-full blur-3xl pointer-events-none"
-                animate={{
-                  opacity: [0.03, 0.08, 0.03],
-                  scale: [1, 1.1, 1]
-                }}
-                transition={{
-                  duration: 5,
-                  delay: 3,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
+                className="absolute -right-20 -bottom-20 w-64 h-64 rounded-full border-2 border-[#8CA58F]/10"
+                initial={{ scale: 0, opacity: 0 }}
+                animate={isInView ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
+                transition={{ duration: 1, delay: 1.5 }}
               />
             </div>
           </motion.div>
