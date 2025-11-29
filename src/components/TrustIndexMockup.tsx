@@ -1,7 +1,6 @@
 import { motion, useMotionValue, useTransform, useSpring, useScroll } from 'motion/react';
 import { useState, useRef } from 'react';
-const profileImage = '';
-const statusBar = '';
+import profileImage from '../assets/iphone_mock_image.png';
 
 export function TrustIndexMockup() {
   const [isHovered, setIsHovered] = useState(false);
@@ -83,16 +82,6 @@ export function TrustIndexMockup() {
             
             {/* Status Bar Background */}
             <div className="absolute top-0 left-0 right-0 h-10 bg-white z-20" />
-            
-            {/* Status Bar Image (9:41, signal, wifi, battery) */}
-            <div className="absolute top-[6px] left-3 right-3 z-40">
-              <img
-                src={statusBar}
-                alt="Status Bar"
-                className="w-full h-auto"
-                draggable={false}
-              />
-            </div>
             
             {/* Dynamic Island */}
             <div className="absolute top-[13px] left-1/2 -translate-x-1/2 w-[95px] h-[28px] bg-black rounded-full z-30" 

@@ -1,6 +1,6 @@
 import { motion, useScroll, useTransform, useInView } from 'motion/react';
 import { useRef, Fragment } from 'react';
-const logoElement = '';
+import logoElement from '../assets/story_sectrions_leftside_image.png';
 
 interface ScrollRevealTextProps {
   text: string;

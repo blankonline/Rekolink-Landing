@@ -2,9 +2,9 @@ import { motion, useInView, useScroll, useTransform } from 'motion/react';
 import { useRef, useState, useEffect } from 'react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import { Newspaper, Video, ArrowUpRight } from 'lucide-react';
-const lefigaroLogo = '';
-const regardsDirLogo = '';
-const bfmtvLogo = '';
+import spotlight1 from '../assets/spotlight_1.png';
+import spotlight2 from '../assets/spotlight_2.png';
+import spotlight3 from '../assets/spotlight_3.png';
 
 export function SocialProof() {
   const ref = useRef(null);
@@ -184,7 +184,7 @@ export function SocialProof() {
             {/* Source and View More Button - aligned */}
             <div className="flex items-center justify-between">
               <ImageWithFallback
-                src={bfmtvLogo}
+                src={spotlight1}
                 alt="BFM TV"
                 className="h-4 w-auto object-contain"
               />
@@ -260,7 +260,7 @@ export function SocialProof() {
             {/* Source and View More Button - aligned */}
             <div className="flex items-center justify-between">
               <ImageWithFallback
-                src={regardsDirLogo}
+                src={spotlight2}
                 alt="Regards de dirigeants"
                 className="h-4 w-auto object-contain"
               />
@@ -337,7 +337,7 @@ export function SocialProof() {
             {/* Source and View More Button - aligned */}
             <div className="flex items-center justify-between">
               <ImageWithFallback
-                src={lefigaroLogo}
+                src={spotlight3}
                 alt="Le Figaro"
                 className="h-4 w-auto object-contain"
               />

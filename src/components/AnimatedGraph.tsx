@@ -1,12 +1,11 @@
 import { motion, useInView } from 'motion/react';
 import { useRef, useState, useEffect } from 'react';
-const graphImage = '';
-const centralAvatar = '';
-const avatar1 = '';
-const avatar2 = '';
-const avatar3 = '';
-const avatar4 = '';
-const avatar5 = '';
+import centralAvatar from '../assets/real_impact_center_image.png';
+import avatar1 from '../assets/real_impact_1.png';
+import avatar2 from '../assets/real_impact_2.png';
+import avatar3 from '../assets/real_impact_3.png';
+import avatar4 from '../assets/real_impact_4.png';
+import avatar5 from '../assets/real_impact_5.png';
 
 interface DataPoint {
   label: string;

@@ -1,7 +1,6 @@
 import { motion } from 'motion/react';
-import { ImageWithFallback } from './figma/ImageWithFallback';
 import { Linkedin, Instagram, Mail } from 'lucide-react';
-const logo = '';
+import logo from '../assets/top_bar_logo.png';
 
 // X (Twitter) Logo Component
 const XLogo = ({ className }: { className?: string }) => (
