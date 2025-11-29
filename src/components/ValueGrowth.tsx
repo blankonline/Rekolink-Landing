@@ -1,6 +1,12 @@
 import { motion, useInView, useScroll, useTransform } from 'motion/react';
 import { useRef } from 'react';
 import { ArrowRight } from 'lucide-react';
+import centralAvatar from '../assets/real_impact_center_image.png';
+import avatar1 from '../assets/real_impact_1.png';
+import avatar2 from '../assets/real_impact_2.png';
+import avatar3 from '../assets/real_impact_3.png';
+import avatar4 from '../assets/real_impact_4.png';
+import avatar5 from '../assets/real_impact_5.png';
 
 export function ValueGrowth() {
   const ref = useRef(null);
@@ -202,243 +208,277 @@ export function ValueGrowth() {
             </div>
           </div>
 
-          {/* Right column - Animated line graph */}
+          {/* Right column - Network visualization with avatars */}
           <motion.div
-            className="relative bg-gradient-to-br from-[#E8F1EC] to-[#F0F5F2] rounded-3xl p-8 h-[400px] overflow-hidden"
+            className="relative flex items-center justify-center"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
             transition={{ duration: 1, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
           >
-            {/* Floating decorative elements */}
-            {[...Array(8)].map((_, i) => {
-              const isPink = i % 2 === 0;
-              return (
-                <motion.div
-                  key={`float-${i}`}
-                  className={`absolute w-2 h-2 rounded-full ${isPink ? 'bg-[#DC8285]/20' : 'bg-[#8CA58F]/20'}`}
-                  style={{
-                    left: `${10 + i * 12}%`,
-                    top: `${20 + Math.sin(i) * 15}%`,
-                  }}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={isInView ? { 
-                    opacity: [0, 0.5, 0.5],
-                    y: [20, 0, 0],
-                  } : { opacity: 0, y: 20 }}
-                  transition={{
-                    duration: 1,
-                    delay: 0.8 + i * 0.1,
-                    ease: "easeOut"
-                  }}
-                />
-              );
-            })}
+            {/* Main graph container */}
+            <div className="relative w-full max-w-[500px] h-[500px]">
+              
+              {/* Network connection visualization */}
+              <svg 
+                viewBox="0 0 400 400" 
+                className="w-full h-full"
+              >
+                <defs>
+                  {/* Gradient definitions */}
+                  <linearGradient id="lineGradientGrowth" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#8CA58F" stopOpacity="0.6" />
+                    <stop offset="100%" stopColor="#8CA58F" stopOpacity="0.2" />
+                  </linearGradient>
+                  
+                  {/* Glow filter */}
+                  <filter id="nodeGlowGrowth">
+                    <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                    <feMerge>
+                      <feMergeNode in="coloredBlur"/>
+                      <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                  </filter>
+                </defs>
 
-            {/* Growth graph visualization */}
-            <svg 
-              className="w-full h-full" 
-              viewBox="0 0 400 350"
-              style={{ overflow: 'visible' }}
-            >
-              {/* Grid lines */}
-              {[0, 1, 2, 3, 4].map((i) => (
-                <motion.line
-                  key={`grid-${i}`}
-                  x1="40"
-                  y1={60 + i * 60}
-                  x2="360"
-                  y2={60 + i * 60}
-                  stroke="#8CA58F"
-                  strokeWidth="1"
-                  strokeOpacity="0.15"
-                  strokeDasharray="4 4"
-                  initial={{ pathLength: 0 }}
-                  animate={isInView ? { pathLength: 1 } : { pathLength: 0 }}
-                  transition={{ duration: 0.8, delay: 0.6 + i * 0.1 }}
-                />
-              ))}
+                {/* Connection lines */}
+                {[
+                  { x1: 200, y1: 200, x2: 320, y2: 200, delay: 1.2 },
+                  { x1: 200, y1: 200, x2: 292, y2: 277, delay: 1.3 },
+                  { x1: 200, y1: 200, x2: 221, y2: 318, delay: 1.4 },
+                  { x1: 200, y1: 200, x2: 140, y2: 304, delay: 1.5 },
+                  { x1: 200, y1: 200, x2: 87, y2: 241, delay: 1.6 },
+                  { x1: 200, y1: 200, x2: 87, y2: 159, delay: 1.7 },
+                  { x1: 200, y1: 200, x2: 140, y2: 96, delay: 1.8 },
+                  { x1: 200, y1: 200, x2: 221, y2: 82, delay: 1.9 },
+                  { x1: 200, y1: 200, x2: 292, y2: 123, delay: 2.0 },
+                ].map((line, i) => (
+                  <motion.line
+                    key={`line-growth-${i}`}
+                    x1={line.x1}
+                    y1={line.y1}
+                    x2={line.x1}
+                    y2={line.y1}
+                    stroke="url(#lineGradientGrowth)"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    initial={{ x2: line.x1, y2: line.y1, opacity: 0 }}
+                    animate={isInView ? { 
+                      x2: line.x2, 
+                      y2: line.y2,
+                      opacity: 1
+                    } : { 
+                      x2: line.x1, 
+                      y2: line.y1,
+                      opacity: 0 
+                    }}
+                    transition={{ 
+                      duration: 0.8, 
+                      delay: line.delay,
+                      ease: [0.22, 1, 0.36, 1]
+                    }}
+                  />
+                ))}
 
-              {/* Y axis labels */}
-              {['100%', '75%', '50%', '25%', '0%'].map((label, i) => (
-                <motion.text
-                  key={`y-label-${i}`}
-                  x="20"
-                  y={70 + i * 60}
-                  fill="#6A6A6A"
-                  fontSize="10"
-                  textAnchor="end"
-                  initial={{ opacity: 0 }}
-                  animate={isInView ? { opacity: 0.6 } : { opacity: 0 }}
-                  transition={{ duration: 0.5, delay: 0.8 + i * 0.05 }}
-                >
-                  {label}
-                </motion.text>
-              ))}
+                {/* Satellite nodes */}
+                {[
+                  { cx: 320, cy: 200, delay: 1.2, avatar: avatar1 },
+                  { cx: 292, cy: 277, delay: 1.3, avatar: avatar4 },
+                  { cx: 221, cy: 318, delay: 1.4, avatar: avatar2 },
+                  { cx: 140, cy: 304, delay: 1.5, avatar: avatar5 },
+                  { cx: 87, cy: 241, delay: 1.6, avatar: null },
+                  { cx: 87, cy: 159, delay: 1.7, avatar: avatar3 },
+                  { cx: 140, cy: 96, delay: 1.8, avatar: null },
+                  { cx: 221, cy: 82, delay: 1.9, avatar: null },
+                  { cx: 292, cy: 123, delay: 2.0, avatar: null },
+                ].map((node, i) => {
+                  const isPink = i % 3 === 0;
+                  const hasAvatar = node.avatar !== null;
+                  
+                  return (
+                    <g key={`node-growth-${i}`}>
+                      {hasAvatar ? (
+                        // Avatar node with circular image
+                        <>
+                          <defs>
+                            <clipPath id={`avatarClipGrowth${i}`}>
+                              <circle cx={node.cx} cy={node.cy} r="22" />
+                            </clipPath>
+                          </defs>
+                          <motion.image
+                            href={node.avatar}
+                            x={node.cx - 22}
+                            y={node.cy - 22}
+                            width="44"
+                            height="44"
+                            clipPath={`url(#avatarClipGrowth${i})`}
+                            preserveAspectRatio="xMidYMid slice"
+                            initial={{ scale: 0, opacity: 0 }}
+                            animate={isInView ? { 
+                              scale: 1, 
+                              opacity: 1
+                            } : { scale: 0, opacity: 0 }}
+                            transition={{ 
+                              duration: 0.5, 
+                              delay: node.delay,
+                              type: "spring",
+                              stiffness: 300
+                            }}
+                            style={{ transformOrigin: `${node.cx}px ${node.cy}px` }}
+                          />
+                        </>
+                      ) : (
+                        // Regular node with icon
+                        <>
+                          <motion.circle
+                            cx={node.cx}
+                            cy={node.cy}
+                            r="22"
+                            fill={isPink ? '#F0C8C9' : '#B4BEB5'}
+                            filter="url(#nodeGlowGrowth)"
+                            initial={{ scale: 0, opacity: 0 }}
+                            animate={isInView ? { 
+                              scale: 1, 
+                              opacity: 1
+                            } : { scale: 0, opacity: 0 }}
+                            transition={{ 
+                              duration: 0.5, 
+                              delay: node.delay,
+                              type: "spring",
+                              stiffness: 300
+                            }}
+                            style={{ transformOrigin: `${node.cx}px ${node.cy}px` }}
+                          />
+                          
+                          {/* User icon simulation */}
+                          <motion.path
+                            d={`M ${node.cx} ${node.cy - 6} 
+                                a 4 4 0 1 1 0 0.1
+                                M ${node.cx - 8} ${node.cy + 8}
+                                a 8 6 0 0 1 16 0`}
+                            fill="none"
+                            stroke={isPink ? '#DC8285' : '#47634A'}
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            initial={{ opacity: 0 }}
+                            animate={isInView ? { opacity: 0.7 } : { opacity: 0 }}
+                            transition={{ duration: 0.3, delay: node.delay + 0.3 }}
+                          />
+                        </>
+                      )}
+                    </g>
+                  );
+                })}
 
-              {/* X axis labels */}
-              {['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'].map((label, i) => (
-                <motion.text
-                  key={`x-label-${i}`}
-                  x={70 + i * 50}
-                  y="320"
-                  fill="#6A6A6A"
-                  fontSize="11"
-                  textAnchor="middle"
-                  initial={{ opacity: 0 }}
-                  animate={isInView ? { opacity: 0.6 } : { opacity: 0 }}
-                  transition={{ duration: 0.5, delay: 1 + i * 0.05 }}
-                >
-                  {label}
-                </motion.text>
-              ))}
+                {/* Central node - larger */}
+                <g>
+                  {/* Pulsing ring around center */}
+                  <motion.circle
+                    cx="200"
+                    cy="200"
+                    r="50"
+                    fill="none"
+                    stroke="#8CA58F"
+                    strokeWidth="2"
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={isInView ? {
+                      opacity: [0, 0.4, 0],
+                      scale: [0.8, 1.3, 1.5],
+                    } : { opacity: 0, scale: 0.8 }}
+                    transition={{
+                      duration: 2,
+                      delay: 2,
+                      repeat: Infinity,
+                      ease: "easeOut"
+                    }}
+                    style={{ transformOrigin: '200px 200px' }}
+                  />
+                  
+                  {/* Central avatar image */}
+                  <motion.image
+                    href={centralAvatar}
+                    x="140"
+                    y="140"
+                    width="120"
+                    height="120"
+                    preserveAspectRatio="xMidYMid meet"
+                    initial={{ scale: 0, opacity: 0 }}
+                    animate={isInView ? { 
+                      scale: 1, 
+                      opacity: 1
+                    } : { scale: 0, opacity: 0 }}
+                    transition={{ 
+                      duration: 0.6, 
+                      delay: 1.9,
+                      type: "spring",
+                      stiffness: 200
+                    }}
+                    style={{ transformOrigin: '200px 200px' }}
+                  />
+                </g>
 
-              {/* Animated growth line path */}
-              <motion.path
-                d="M 50 250 Q 100 230, 120 200 T 170 170 T 220 130 T 270 90 T 320 50"
-                fill="none"
-                stroke="url(#lineGradient)"
-                strokeWidth="4"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                initial={{ pathLength: 0, opacity: 0 }}
-                animate={isInView ? { 
-                  pathLength: 1, 
-                  opacity: 1 
-                } : { pathLength: 0, opacity: 0 }}
+                {/* Animated data flow particles */}
+                {[...Array(18)].map((_, i) => {
+                  const paths = [
+                    { from: [200, 200], to: [320, 200] },
+                    { from: [200, 200], to: [292, 277] },
+                    { from: [200, 200], to: [221, 318] },
+                    { from: [200, 200], to: [140, 304] },
+                    { from: [200, 200], to: [87, 241] },
+                    { from: [200, 200], to: [87, 159] },
+                    { from: [200, 200], to: [140, 96] },
+                    { from: [200, 200], to: [221, 82] },
+                    { from: [200, 200], to: [292, 123] },
+                  ];
+                  const pathIndex = i % 9;
+                  const path = paths[pathIndex];
+                  const isPink = i % 4 === 0;
+                  
+                  return (
+                    <motion.circle
+                      key={`particle-growth-${i}`}
+                      r="2.5"
+                      fill={isPink ? '#DC8285' : '#8CA58F'}
+                      initial={{ 
+                        cx: path.from[0], 
+                        cy: path.from[1],
+                        opacity: 0 
+                      }}
+                      animate={isInView ? {
+                        cx: [path.from[0], path.to[0], path.from[0]],
+                        cy: [path.from[1], path.to[1], path.from[1]],
+                        opacity: [0, 1, 0],
+                      } : {
+                        cx: path.from[0],
+                        cy: path.from[1],
+                        opacity: 0
+                      }}
+                      transition={{
+                        duration: 2.5,
+                        delay: 2.5 + i * 0.3,
+                        repeat: Infinity,
+                        ease: "easeInOut"
+                      }}
+                    />
+                  );
+                })}
+              </svg>
+
+              {/* Pulsing glow effect - Green */}
+              <motion.div
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-[#8CA58F] rounded-full blur-3xl pointer-events-none"
+                animate={{
+                  opacity: [0.05, 0.12, 0.05],
+                  scale: [0.95, 1.05, 0.95]
+                }}
                 transition={{
-                  pathLength: { duration: 2, delay: 1.2, ease: [0.22, 1, 0.36, 1] },
-                  opacity: { duration: 0.3, delay: 1.2 }
+                  duration: 4,
+                  delay: 2,
+                  repeat: Infinity,
+                  ease: "easeInOut"
                 }}
               />
-
-              {/* Area fill under the line */}
-              <motion.path
-                d="M 50 250 Q 100 230, 120 200 T 170 170 T 220 130 T 270 90 T 320 50 L 320 300 L 50 300 Z"
-                fill="url(#areaGradient)"
-                initial={{ opacity: 0 }}
-                animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-                transition={{ duration: 1, delay: 1.5, ease: "easeOut" }}
-              />
-
-              {/* Gradient definitions */}
-              <defs>
-                <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#47634A" />
-                  <stop offset="50%" stopColor="#8CA58F" />
-                  <stop offset="100%" stopColor="#A5C4A8" />
-                </linearGradient>
-                <linearGradient id="areaGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stopColor="#8CA58F" stopOpacity="0.3" />
-                  <stop offset="100%" stopColor="#8CA58F" stopOpacity="0.05" />
-                </linearGradient>
-              </defs>
-
-              {/* Animated data points */}
-              {[
-                { x: 50, y: 250, delay: 1.3 },
-                { x: 120, y: 200, delay: 1.5 },
-                { x: 170, y: 170, delay: 1.7 },
-                { x: 220, y: 130, delay: 1.9 },
-                { x: 270, y: 90, delay: 2.1 },
-                { x: 320, y: 50, delay: 2.3 },
-              ].map((point, i) => {
-                const isPink = i % 3 === 0;
-                return (
-                  <g key={`point-${i}`}>
-                    {/* Pulsing circle on last point */}
-                    {i === 5 && (
-                      <>
-                        <motion.circle
-                          cx={point.x}
-                          cy={point.y}
-                          r="6"
-                          fill="none"
-                          stroke="#8CA58F"
-                          strokeWidth="2"
-                          initial={{ r: 6, opacity: 0 }}
-                          animate={isInView ? {
-                            r: [6, 20, 6],
-                            opacity: [0.8, 0, 0.8],
-                          } : { r: 6, opacity: 0 }}
-                          transition={{
-                            duration: 2,
-                            delay: point.delay + 0.5,
-                            repeat: Infinity,
-                            ease: "easeOut"
-                          }}
-                        />
-                        <motion.circle
-                          cx={point.x}
-                          cy={point.y}
-                          r="6"
-                          fill="none"
-                          stroke="#DC8285"
-                          strokeWidth="2"
-                          initial={{ r: 6, opacity: 0 }}
-                          animate={isInView ? {
-                            r: [6, 20, 6],
-                            opacity: [0.6, 0, 0.6],
-                          } : { r: 6, opacity: 0 }}
-                          transition={{
-                            duration: 2,
-                            delay: point.delay + 1,
-                            repeat: Infinity,
-                            ease: "easeOut"
-                          }}
-                        />
-                      </>
-                    )}
-                    
-                    {/* Main data point */}
-                    <motion.circle
-                      cx={point.x}
-                      cy={point.y}
-                      r="5"
-                      fill="#FFFFFF"
-                      stroke={isPink ? '#DC8285' : '#47634A'}
-                      strokeWidth="3"
-                      initial={{ scale: 0, opacity: 0 }}
-                      animate={isInView ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
-                      transition={{
-                        duration: 0.5,
-                        delay: point.delay,
-                        type: "spring",
-                        stiffness: 300
-                      }}
-                      style={{ transformOrigin: `${point.x}px ${point.y}px` }}
-                    />
-
-                    {/* Glow effect */}
-                    <motion.circle
-                      cx={point.x}
-                      cy={point.y}
-                      r="8"
-                      fill={isPink ? '#DC8285' : '#8CA58F'}
-                      opacity="0.3"
-                      initial={{ scale: 0 }}
-                      animate={isInView ? { scale: [0, 1.5, 0] } : { scale: 0 }}
-                      transition={{
-                        duration: 0.8,
-                        delay: point.delay + 0.2,
-                        ease: "easeOut"
-                      }}
-                      style={{ transformOrigin: `${point.x}px ${point.y}px` }}
-                    />
-                  </g>
-                );
-              })}
-            </svg>
-
-            {/* Growth percentage indicator */}
-            <motion.div
-              className="absolute top-6 right-6 bg-[#47634A] text-white px-4 py-2 rounded-xl"
-              initial={{ opacity: 0, scale: 0, rotate: -10 }}
-              animate={isInView ? { opacity: 1, scale: 1, rotate: 0 } : { opacity: 0, scale: 0, rotate: -10 }}
-              transition={{ duration: 0.6, delay: 2.6, type: "spring", stiffness: 200 }}
-            >
-              <div style={{ fontSize: '10px', opacity: 0.8 }}>Growth Rate</div>
-              <div style={{ fontSize: '20px', fontWeight: 700 }}>+82%</div>
-            </motion.div>
+            </div>
           </motion.div>
         </div>
       </motion.div>
