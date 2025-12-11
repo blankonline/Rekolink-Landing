@@ -1,6 +1,7 @@
 import { motion } from 'motion/react';
 import { Linkedin, Instagram, Mail } from 'lucide-react';
 import logo from '../assets/top_bar_logo.png';
+import { useState } from 'react';
 
 // X (Twitter) Logo Component
 const XLogo = ({ className }: { className?: string }) => (
@@ -9,12 +10,12 @@ const XLogo = ({ className }: { className?: string }) => (
   </svg>
 );
 
-export function Footer() {
+export function Footer({ onLegalClick }: { onLegalClick?: (type: string) => void }) {
   const socialLinks = [
-    { icon: Linkedin, href: '#', label: 'LinkedIn' },
-    { icon: XLogo, href: '#', label: 'X' },
-    { icon: Instagram, href: '#', label: 'Instagram' },
-    { icon: Mail, href: '#', label: 'Email' }
+    { icon: Linkedin, href: 'https://www.linkedin.com/company/rekolink', label: 'LinkedIn' },
+    { icon: XLogo, href: 'https://x.com/rekolink', label: 'X' },
+    { icon: Instagram, href: 'https://www.instagram.com/rekolinkapp', label: 'Instagram' },
+    { icon: Mail, href: 'mailto:contact@rekolink.com', label: 'Email' }
   ];
 
   return (
@@ -74,27 +75,41 @@ export function Footer() {
             transition={{ duration: 0.6, delay: 0.1 }}
           >
             <div className="flex flex-wrap gap-x-6 gap-y-2">
-              <a 
-                href="#contact"
-                className="text-[#6A6A6A] hover:text-[#8CA58F] transition-colors"
-                style={{ fontSize: '14px' }}
-              >
-                Contact
-              </a>
-              <a 
-                href="#privacy"
+              <button
+                onClick={() => onLegalClick?.('privacy')}
                 className="text-[#6A6A6A] hover:text-[#8CA58F] transition-colors"
                 style={{ fontSize: '14px' }}
               >
                 Privacy Policy
-              </a>
-              <a 
-                href="#terms"
+              </button>
+              <button
+                onClick={() => onLegalClick?.('terms')}
                 className="text-[#6A6A6A] hover:text-[#8CA58F] transition-colors"
                 style={{ fontSize: '14px' }}
               >
                 Terms of Service
-              </a>
+              </button>
+              <button
+                onClick={() => onLegalClick?.('cookies')}
+                className="text-[#6A6A6A] hover:text-[#8CA58F] transition-colors"
+                style={{ fontSize: '14px' }}
+              >
+                Cookie Policy
+              </button>
+              <button
+                onClick={() => onLegalClick?.('moderation')}
+                className="text-[#6A6A6A] hover:text-[#8CA58F] transition-colors"
+                style={{ fontSize: '14px' }}
+              >
+                Moderation
+              </button>
+              <button
+                onClick={() => onLegalClick?.('legal')}
+                className="text-[#6A6A6A] hover:text-[#8CA58F] transition-colors"
+                style={{ fontSize: '14px' }}
+              >
+                Legal
+              </button>
             </div>
             
             {/* Copyright integrated */}
