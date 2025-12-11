@@ -5,6 +5,13 @@ export function LegalMentionsContent() {
         <p><strong>Last Updated:</strong> 11 December 2025</p>
       </div>
 
+      <div className="bg-[#FFF9ED] border-l-4 border-[#8CA58F] p-4 rounded-lg mb-6">
+        <p className="text-[#6A6A6A] text-sm">
+          <strong>Note:</strong> Some information in this document contains placeholders that must be completed 
+          by Rekolink (registration number, VAT number, share capital, director name, phone number).
+        </p>
+      </div>
+
       <section>
         <h3 className="text-xl font-semibold mb-3 text-[#47634A]">1. Publisher Information</h3>
         <div className="bg-[#F9FCFA] p-4 rounded-lg">
