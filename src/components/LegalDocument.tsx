@@ -24,7 +24,7 @@ export function LegalDocument({ title, content, onClose }: LegalDocumentProps) {
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="sticky top-0 bg-gradient-to-br from-[#F9FCFA] to-white border-b border-[#E8E8E8] px-6 py-4 flex items-center justify-between">
+        <div className="sticky top-0 z-10 bg-gradient-to-br from-[#F9FCFA] to-white border-b border-[#E8E8E8] px-6 py-4 flex items-center justify-between shadow-sm">
           <div className="flex items-center gap-3">
             <button
               onClick={onClose}
@@ -54,8 +54,18 @@ export function LegalDocument({ title, content, onClose }: LegalDocumentProps) {
         </div>
 
         {/* Content */}
-        <div className="flex-1 overflow-y-auto px-6 py-8">
-          <div className="prose prose-sm max-w-none">
+        <div className="flex-1 overflow-y-auto px-6 sm:px-8 py-8">
+          <div className="prose prose-base max-w-none
+            prose-headings:text-[#47634A] prose-headings:font-semibold
+            prose-h2:text-2xl prose-h2:mt-8 prose-h2:mb-4
+            prose-h3:text-xl prose-h3:mt-6 prose-h3:mb-3
+            prose-h4:text-lg prose-h4:mt-4 prose-h4:mb-2
+            prose-p:text-[#6A6A6A] prose-p:leading-relaxed prose-p:mb-4
+            prose-li:text-[#6A6A6A] prose-li:leading-relaxed
+            prose-strong:text-[#47634A] prose-strong:font-semibold
+            prose-a:text-[#8CA58F] prose-a:no-underline hover:prose-a:underline
+            prose-ul:my-3 prose-ol:my-3
+            prose-li:my-1">
             {content}
           </div>
         </div>
