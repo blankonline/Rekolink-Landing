@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { Footer } from '../components/Footer';
+import { ImageWithFallback } from '../components/figma/ImageWithFallback';
 import logo from '../assets/top_bar_logo.png';
 
 interface LegalPageLayoutProps {
@@ -11,15 +12,21 @@ interface LegalPageLayoutProps {
 
 export function LegalPageLayout({ title, children }: LegalPageLayoutProps) {
   const location = useLocation();
+  const navigate = useNavigate();
 
   // Scroll to top when page loads or route changes
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location.pathname]);
 
+  const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    navigate('/');
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#F9FCFA] to-white flex flex-col pt-20 sm:pt-24 lg:pt-28 pb-4">
-      {/* Logo at top with elegant entrance - matching Hero */}
+      {/* Logo at top with elegant entrance - matching Hero exactly */}
       <motion.div 
         className="max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-20 w-full mb-14 lg:mb-20"
         initial={{ opacity: 0, y: -30, scale: 0.9 }}
@@ -30,24 +37,25 @@ export function LegalPageLayout({ title, children }: LegalPageLayoutProps) {
           delay: 0.1
         }}
       >
-        <motion.div
+        <motion.a 
+          href="/"
+          onClick={handleLogoClick}
+          className="inline-flex items-center group"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.98 }}
         >
-          <Link to="/" className="inline-flex items-center group">
-            <motion.div
-              initial={{ filter: 'blur(10px)' }}
-              animate={{ filter: 'blur(0px)' }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-            >
-              <img 
-                src={logo} 
-                alt="Rekolink" 
-                className="h-10 w-auto transition-all duration-300 group-hover:drop-shadow-lg"
-              />
-            </motion.div>
-          </Link>
-        </motion.div>
+          <motion.div
+            initial={{ filter: 'blur(10px)' }}
+            animate={{ filter: 'blur(0px)' }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            <ImageWithFallback 
+              src={logo} 
+              alt="Rekolink - Match. Grow. Succeed" 
+              className="h-10 w-auto transition-all duration-300 group-hover:drop-shadow-lg"
+            />
+          </motion.div>
+        </motion.a>
       </motion.div>
 
       {/* Content */}
