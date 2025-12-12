@@ -25,42 +25,43 @@ export function LegalPageLayout({ title, children }: LegalPageLayoutProps) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#F9FCFA] to-white flex flex-col pt-20 sm:pt-24 lg:pt-28 pb-4">
-      {/* Logo at top with elegant entrance - matching Hero exactly */}
-      <motion.div 
-        className="max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-20 w-full mb-14 lg:mb-20"
-        initial={{ opacity: 0, y: -30, scale: 0.9 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ 
-          duration: 0.8, 
-          ease: [0.22, 1, 0.36, 1],
-          delay: 0.1
-        }}
-      >
-        <motion.a 
-          href="/"
-          onClick={handleLogoClick}
-          className="inline-flex items-center group"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.98 }}
+    <div className="min-h-screen bg-gradient-to-br from-[#F9FCFA] to-white flex flex-col">
+      {/* Full-screen content with logo inside */}
+      <main className="flex-1 max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-20 w-full pt-20 sm:pt-24 lg:pt-28 pb-16">
+        {/* Logo at top with elegant entrance - part of content */}
+        <motion.div 
+          className="mb-14 lg:mb-20"
+          initial={{ opacity: 0, y: -30, scale: 0.9 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ 
+            duration: 0.8, 
+            ease: [0.22, 1, 0.36, 1],
+            delay: 0.1
+          }}
         >
-          <motion.div
-            initial={{ filter: 'blur(10px)' }}
-            animate={{ filter: 'blur(0px)' }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+          <motion.a 
+            href="/"
+            onClick={handleLogoClick}
+            className="inline-flex items-center group"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.98 }}
           >
-            <ImageWithFallback 
-              src={logo} 
-              alt="Rekolink - Match. Grow. Succeed" 
-              className="h-10 w-auto transition-all duration-300 group-hover:drop-shadow-lg"
-            />
-          </motion.div>
-        </motion.a>
-      </motion.div>
+            <motion.div
+              initial={{ filter: 'blur(10px)' }}
+              animate={{ filter: 'blur(0px)' }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              <ImageWithFallback 
+                src={logo} 
+                alt="Rekolink - Match. Grow. Succeed" 
+                className="h-10 w-auto transition-all duration-300 group-hover:drop-shadow-lg"
+              />
+            </motion.div>
+          </motion.a>
+        </motion.div>
 
-      {/* Content */}
-      <main className="flex-1 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
-        <article className="bg-white rounded-2xl shadow-xl p-8 sm:p-12 lg:p-16">
+        {/* Content - no card, full width */}
+        <article className="max-w-4xl">
           <h1 className="text-4xl sm:text-5xl font-bold text-[#1A1A1A] mb-4">{title}</h1>
           <div className="h-1 w-20 bg-gradient-to-r from-[#8CA58F] to-[#47634A] rounded-full mb-12"></div>
           
