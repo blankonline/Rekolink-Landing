@@ -30,7 +30,7 @@ export function LegalPageLayout({ title, children }: LegalPageLayoutProps) {
       <main className="flex-1 max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-20 w-full pt-20 sm:pt-24 lg:pt-28 pb-16">
         {/* Logo at top with elegant entrance - part of content */}
         <motion.div 
-          className="mb-14 lg:mb-20"
+          className="mb-20 lg:mb-28"
           initial={{ opacity: 0, y: -30, scale: 0.9 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ 
