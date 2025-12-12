@@ -46,7 +46,7 @@ Create a production build:
 npm run build
 ```
 
-The build output will be in the `build` directory.
+The build output will be in the `dist` directory.
 
 ## Deployment
 

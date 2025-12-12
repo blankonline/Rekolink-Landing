@@ -10,11 +10,39 @@ import { Footer } from './components/Footer';
 import { ScrollRevealText } from './components/ScrollRevealText';
 import { ScrollProgress } from './components/ScrollProgress';
 import { SectionDivider } from './components/SectionDivider';
+import { LegalDocument } from './components/LegalDocument';
+import { PrivacyPolicyContent } from './components/legal/PrivacyPolicy';
+import { TermsOfServiceContent } from './components/legal/TermsOfService';
+import { CookiePolicyContent } from './components/legal/CookiePolicy';
+import { ModerationPolicyContent } from './components/legal/ModerationPolicy';
+import { LegalMentionsContent } from './components/legal/LegalMentions';
+import { useState } from 'react';
+import { AnimatePresence } from 'motion/react';
 
 export default function App() {
+  const [legalDocument, setLegalDocument] = useState<string | null>(null);
+
+  const getLegalContent = () => {
+    switch (legalDocument) {
+      case 'privacy':
+        return { title: 'Privacy Policy', content: <PrivacyPolicyContent /> };
+      case 'terms':
+        return { title: 'Terms of Service', content: <TermsOfServiceContent /> };
+      case 'cookies':
+        return { title: 'Cookie Policy', content: <CookiePolicyContent /> };
+      case 'moderation':
+        return { title: 'Moderation Policy', content: <ModerationPolicyContent /> };
+      case 'legal':
+        return { title: 'Legal Mentions', content: <LegalMentionsContent /> };
+      default:
+        return null;
+    }
+  };
+
+  const legalContent = getLegalContent();
+
   return (
-    <div className="min-h-screen bg-white overflow-x-hidden relative">
-      {/* Scroll progress indicator */}
+    <div className="min-h-screen bg-white overflow-x-hidden relative">{/* Scroll progress indicator */}
       <ScrollProgress />
       
       {/* Main content */}
@@ -65,8 +93,19 @@ export default function App() {
         <SocialProof />
         
         <FinalCTA />
-        <Footer />
+        <Footer onLegalClick={setLegalDocument} />
       </div>
+
+      {/* Legal Document Modal */}
+      <AnimatePresence>
+        {legalContent && (
+          <LegalDocument
+            title={legalContent.title}
+            content={legalContent.content}
+            onClose={() => setLegalDocument(null)}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }
