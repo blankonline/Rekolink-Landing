@@ -1,111 +1,20 @@
-import { Hero } from './components/Hero';
-import { ValueBeSeen } from './components/ValueBeSeen';
-import { ValueGrowth } from './components/ValueGrowth';
-import { AnimatedGraph } from './components/AnimatedGraph';
-import { ValuePotential } from './components/ValuePotential';
-import { ValueHuman } from './components/ValueHuman';
-import { SocialProof } from './components/SocialProof';
-import { FinalCTA } from './components/FinalCTA';
-import { Footer } from './components/Footer';
-import { ScrollRevealText } from './components/ScrollRevealText';
-import { ScrollProgress } from './components/ScrollProgress';
-import { SectionDivider } from './components/SectionDivider';
-import { LegalDocument } from './components/LegalDocument';
-import { PrivacyPolicyContent } from './components/legal/PrivacyPolicy';
-import { TermsOfServiceContent } from './components/legal/TermsOfService';
-import { CookiePolicyContent } from './components/legal/CookiePolicy';
-import { ModerationPolicyContent } from './components/legal/ModerationPolicy';
-import { LegalMentionsContent } from './components/legal/LegalMentions';
-import { useState } from 'react';
-import { AnimatePresence } from 'motion/react';
+import { Routes, Route } from 'react-router-dom';
+import { HomePage } from './pages/HomePage';
+import { PrivacyPolicyPage } from './pages/PrivacyPolicyPage';
+import { TermsOfServicePage } from './pages/TermsOfServicePage';
+import { CookiePolicyPage } from './pages/CookiePolicyPage';
+import { ModerationPolicyPage } from './pages/ModerationPolicyPage';
+import { LegalMentionsPage } from './pages/LegalMentionsPage';
 
 export default function App() {
-  const [legalDocument, setLegalDocument] = useState<string | null>(null);
-
-  const getLegalContent = () => {
-    switch (legalDocument) {
-      case 'privacy':
-        return { title: 'Privacy Policy', content: <PrivacyPolicyContent /> };
-      case 'terms':
-        return { title: 'Terms of Service', content: <TermsOfServiceContent /> };
-      case 'cookies':
-        return { title: 'Cookie Policy', content: <CookiePolicyContent /> };
-      case 'moderation':
-        return { title: 'Moderation Policy', content: <ModerationPolicyContent /> };
-      case 'legal':
-        return { title: 'Legal Mentions', content: <LegalMentionsContent /> };
-      default:
-        return null;
-    }
-  };
-
-  const legalContent = getLegalContent();
-
   return (
-    <div className="min-h-screen bg-white overflow-x-hidden relative">{/* Scroll progress indicator */}
-      <ScrollProgress />
-      
-      {/* Main content */}
-      <div className="relative z-10">
-        <Hero />
-        
-        {/* Inspirational micro-copy between sections */}
-        <ScrollRevealText 
-          text="In a world of noise, authentic recognition is the new currency." 
-          highlight="is the new currency"
-          position="center"
-        />
-        
-        <SectionDivider variant="wave" />
-        <ValueBeSeen />
-        
-        <ScrollRevealText 
-          text="Every skill tells a story. Make yours heard." 
-          highlight="Make yours heard"
-          position="right"
-        />
-        
-        <SectionDivider variant="dots" />
-        <ValueGrowth />
-        
-        <SectionDivider variant="gradient" />
-        <AnimatedGraph />
-        
-        <ScrollRevealText 
-          text="Your potential isn't just a promise. It's proof." 
-          highlight="It's proof"
-          position="left"
-        />
-        
-        <SectionDivider variant="wave" />
-        <ValuePotential />
-        
-        <ScrollRevealText 
-          text="Beyond the résumé. Beyond the algorithm. This is you." 
-          highlight="This is you"
-          position="center"
-        />
-        
-        <SectionDivider variant="dots" />
-        <ValueHuman />
-        
-        <SectionDivider variant="gradient" />
-        <SocialProof />
-        
-        <FinalCTA />
-        <Footer onLegalClick={setLegalDocument} />
-      </div>
-
-      {/* Legal Document Modal */}
-      <AnimatePresence>
-        {legalContent && (
-          <LegalDocument
-            title={legalContent.title}
-            content={legalContent.content}
-            onClose={() => setLegalDocument(null)}
-          />
-        )}
-      </AnimatePresence>
-    </div>
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/privacy" element={<PrivacyPolicyPage />} />
+      <Route path="/terms" element={<TermsOfServicePage />} />
+      <Route path="/cookies" element={<CookiePolicyPage />} />
+      <Route path="/moderation" element={<ModerationPolicyPage />} />
+      <Route path="/legal" element={<LegalMentionsPage />} />
+    </Routes>
   );
 }

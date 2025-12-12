@@ -1,7 +1,7 @@
 import { motion } from 'motion/react';
 import { Linkedin, Instagram, Mail } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import logo from '../assets/top_bar_logo.png';
-import { useState } from 'react';
 
 // X (Twitter) Logo Component
 const XLogo = ({ className }: { className?: string }) => (
@@ -10,7 +10,7 @@ const XLogo = ({ className }: { className?: string }) => (
   </svg>
 );
 
-export function Footer({ onLegalClick }: { onLegalClick?: (type: string) => void }) {
+export function Footer() {
   const socialLinks = [
     { icon: Linkedin, href: 'https://www.linkedin.com/company/rekolink', label: 'LinkedIn' },
     { icon: XLogo, href: 'https://x.com/rekolink', label: 'X' },
@@ -75,41 +75,41 @@ export function Footer({ onLegalClick }: { onLegalClick?: (type: string) => void
             transition={{ duration: 0.6, delay: 0.1 }}
           >
             <div className="flex flex-wrap gap-x-6 gap-y-2">
-              <button
-                onClick={() => onLegalClick?.('privacy')}
+              <Link
+                to="/privacy"
                 className="text-[#6A6A6A] hover:text-[#8CA58F] transition-colors"
                 style={{ fontSize: '14px' }}
               >
                 Privacy Policy
-              </button>
-              <button
-                onClick={() => onLegalClick?.('terms')}
+              </Link>
+              <Link
+                to="/terms"
                 className="text-[#6A6A6A] hover:text-[#8CA58F] transition-colors"
                 style={{ fontSize: '14px' }}
               >
                 Terms of Service
-              </button>
-              <button
-                onClick={() => onLegalClick?.('cookies')}
+              </Link>
+              <Link
+                to="/cookies"
                 className="text-[#6A6A6A] hover:text-[#8CA58F] transition-colors"
                 style={{ fontSize: '14px' }}
               >
                 Cookie Policy
-              </button>
-              <button
-                onClick={() => onLegalClick?.('moderation')}
+              </Link>
+              <Link
+                to="/moderation"
                 className="text-[#6A6A6A] hover:text-[#8CA58F] transition-colors"
                 style={{ fontSize: '14px' }}
               >
                 Moderation
-              </button>
-              <button
-                onClick={() => onLegalClick?.('legal')}
+              </Link>
+              <Link
+                to="/legal"
                 className="text-[#6A6A6A] hover:text-[#8CA58F] transition-colors"
                 style={{ fontSize: '14px' }}
               >
                 Legal
-              </button>
+              </Link>
             </div>
             
             {/* Copyright integrated */}
