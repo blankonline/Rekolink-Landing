@@ -1,15 +1,9 @@
 export function LegalMentionsContent() {
   return (
     <div>
-      <div className="text-sm mb-6 text-[#6A6A6A]">
-        <p><strong>Last Updated:</strong> December 11, 2025</p>
-      </div>
-
-      <div className="bg-[#FFF9ED] border-l-4 border-[#8CA58F] p-4 rounded-lg mb-6">
-        <p className="text-sm">
-          <strong>Note:</strong> Some information contains placeholders that must be completed by Rekolink 
-          (registration number, VAT number, share capital, director name, phone number).
-        </p>
+      <div className="text-base mb-8 text-[#6A6A6A] bg-[#F9FCFA] p-6 rounded-xl border-l-4 border-[#8CA58F]">
+        <p className="mb-2"><strong className="text-[#47634A]">Last Updated:</strong> December 11, 2025</p>
+        <p><strong className="text-[#47634A]">Company:</strong> Rekolink SAS, France</p>
       </div>
 
       <section>
@@ -18,20 +12,7 @@ export function LegalMentionsContent() {
           <p>
             <strong>Company Name:</strong> Rekolink SAS<br />
             <strong>Legal Form:</strong> Simplified Joint Stock Company (Société par Actions Simplifiée)<br />
-            <strong>Registration Number:</strong> [To be provided]<br />
-            <strong>VAT Number:</strong> [To be provided]<br />
-            <strong>Share Capital:</strong> [To be provided]<br />
             <strong>Registered Office:</strong> 15 rue de l'Orgerie, 35590 Saint-Gilles, France
-          </p>
-        </div>
-      </section>
-
-      <section>
-        <h2>Publication Director</h2>
-        <div className="bg-[#F9FCFA] p-4 rounded-lg">
-          <p>
-            <strong>Director:</strong> [Legal Representative Name]<br />
-            <strong>Position:</strong> President / CEO
           </p>
         </div>
       </section>
@@ -42,8 +23,7 @@ export function LegalMentionsContent() {
           <p>
             <strong>General:</strong> <a href="mailto:contact@rekolink.com">contact@rekolink.com</a><br />
             <strong>Privacy:</strong> <a href="mailto:privacy@rekolink.com">privacy@rekolink.com</a><br />
-            <strong>Abuse Reports:</strong> <a href="mailto:abuse@rekolink.com">abuse@rekolink.com</a><br />
-            <strong>Phone:</strong> [To be provided]
+            <strong>Abuse Reports:</strong> <a href="mailto:abuse@rekolink.com">abuse@rekolink.com</a>
           </p>
         </div>
       </section>

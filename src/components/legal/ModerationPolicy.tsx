@@ -1,9 +1,9 @@
 export function ModerationPolicyContent() {
   return (
     <div>
-      <div className="text-sm mb-6 text-[#6A6A6A]">
-        <p><strong>Last Updated:</strong> December 11, 2025</p>
-        <p><strong>Company:</strong> Rekolink SAS</p>
+      <div className="text-base mb-8 text-[#6A6A6A] bg-[#F9FCFA] p-6 rounded-xl border-l-4 border-[#8CA58F]">
+        <p className="mb-2"><strong className="text-[#47634A]">Last Updated:</strong> December 11, 2025</p>
+        <p><strong className="text-[#47634A]">Company:</strong> Rekolink SAS, France</p>
       </div>
 
       <section>
