@@ -94,7 +94,7 @@ export function ValuePotential() {
                 animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
                 transition={{ duration: 0.6, delay: 0.7 }}
               >
-                "Rekolink reveals what truly makes you valuable:
+                Rekolink reveals what truly makes you valuable:
               </motion.p>
               <motion.p 
                 className="text-[#8CA58F]"
