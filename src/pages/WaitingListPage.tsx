@@ -2,16 +2,13 @@ import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { motion } from 'motion/react';
-import { CalendarIcon, Loader2, CheckCircle2, AlertCircle } from 'lucide-react';
-import { format } from 'date-fns';
+import { Loader2, CheckCircle2, AlertCircle } from 'lucide-react';
 
 import { Footer } from '../components/Footer';
 import { ImageWithFallback } from '../components/figma/ImageWithFallback';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
-import { Calendar } from '../components/ui/calendar';
-import { Popover, PopoverContent, PopoverTrigger } from '../components/ui/popover';
 import { cn } from '../components/ui/utils';
 import logo from '../assets/top_bar_logo.png';
 
@@ -19,7 +16,7 @@ interface WaitingListFormData {
   firstName: string;
   lastName: string;
   email: string;
-  dateOfBirth: Date | undefined;
+  dateOfBirth: string;
 }
 
 type FormStatus = 'idle' | 'submitting' | 'success' | 'error';
@@ -29,9 +26,6 @@ export function WaitingListPage() {
   const navigate = useNavigate();
   const [formStatus, setFormStatus] = useState<FormStatus>('idle');
   const [apiError, setApiError] = useState<string>('');
-  const [dateOfBirth, setDateOfBirth] = useState<Date | undefined>(undefined);
-  const [dateError, setDateError] = useState<string>('');
-  const [calendarOpen, setCalendarOpen] = useState(false);
 
   const {
     register,
@@ -49,35 +43,19 @@ export function WaitingListPage() {
     navigate('/');
   };
 
-  const calculateAge = (birthDate: Date): number => {
+  // Calculate minimum date (16 years ago from today)
+  const getMaxDateForAge16 = (): string => {
     const today = new Date();
-    let age = today.getFullYear() - birthDate.getFullYear();
-    const monthDiff = today.getMonth() - birthDate.getMonth();
-    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-      age--;
-    }
-    return age;
+    const maxDate = new Date(today.getFullYear() - 16, today.getMonth(), today.getDate());
+    return maxDate.toISOString().split('T')[0];
   };
 
-  const validateAge = (): boolean => {
-    if (!dateOfBirth) {
-      setDateError('Date of birth is required');
-      return false;
-    }
-    const age = calculateAge(dateOfBirth);
-    if (age < 16) {
-      setDateError('You must be at least 16 years old to join');
-      return false;
-    }
-    setDateError('');
-    return true;
+  // Calculate minimum allowed date (1900-01-01)
+  const getMinDate = (): string => {
+    return '1900-01-01';
   };
 
   const onSubmit = async (data: WaitingListFormData) => {
-    if (!validateAge()) {
-      return;
-    }
-
     setFormStatus('submitting');
     setApiError('');
 
@@ -91,7 +69,7 @@ export function WaitingListPage() {
           first_name: data.firstName,
           last_name: data.lastName,
           email: data.email,
-          date_of_birth: format(dateOfBirth!, 'yyyy-MM-dd'),
+          date_of_birth: data.dateOfBirth, // Already in YYYY-MM-DD format from native date input
         }),
       });
 
@@ -104,12 +82,6 @@ export function WaitingListPage() {
       setFormStatus('error');
       setApiError(error instanceof Error ? error.message : 'An unexpected error occurred. Please try again.');
     }
-  };
-
-  const handleDateSelect = (date: Date | undefined) => {
-    setDateOfBirth(date);
-    setDateError('');
-    setCalendarOpen(false);
   };
 
   return (
@@ -302,46 +274,40 @@ export function WaitingListPage() {
                   >
                     Date of Birth
                   </Label>
-                  <Popover open={calendarOpen} onOpenChange={setCalendarOpen}>
-                    <PopoverTrigger asChild>
-                      <button
-                        id="dateOfBirth"
-                        type="button"
-                        aria-invalid={!!dateError}
-                        className={cn(
-                          "h-12 w-full flex items-center rounded-xl border-2 border-gray-200 bg-white px-4 text-base text-left",
-                          "focus:outline-none focus:border-[#47634A]",
-                          "transition-colors duration-200",
-                          !dateOfBirth && "text-gray-400",
-                          dateOfBirth && "text-[#1A1A1A]",
-                          dateError && "border-red-400 focus:border-red-500"
-                        )}
-                      >
-                        <CalendarIcon className="mr-3 h-5 w-5 text-gray-400" />
-                        {dateOfBirth ? format(dateOfBirth, 'MMMM d, yyyy') : 'Select your date of birth'}
-                      </button>
-                    </PopoverTrigger>
-                    <PopoverContent 
-                      className="w-auto p-0 bg-white border-2 border-gray-200 rounded-xl shadow-xl" 
-                      align="start"
-                      sideOffset={8}
-                    >
-                      <Calendar
-                        mode="single"
-                        selected={dateOfBirth}
-                        onSelect={handleDateSelect}
-                        disabled={(date) =>
-                          date > new Date() || date < new Date('1900-01-01')
+                  <Input
+                    id="dateOfBirth"
+                    type="date"
+                    max={getMaxDateForAge16()}
+                    min={getMinDate()}
+                    aria-invalid={!!errors.dateOfBirth}
+                    className={cn(
+                      "h-12 w-full rounded-xl border-2 border-gray-200 bg-white px-4 text-base",
+                      "focus:outline-none focus:border-[#47634A] focus:ring-0",
+                      "transition-colors duration-200",
+                      "[&::-webkit-calendar-picker-indicator]:cursor-pointer",
+                      "[&::-webkit-calendar-picker-indicator]:opacity-60",
+                      "[&::-webkit-calendar-picker-indicator]:hover:opacity-100",
+                      errors.dateOfBirth && "border-red-400 focus:border-red-500"
+                    )}
+                    {...register('dateOfBirth', {
+                      required: 'Date of birth is required',
+                      validate: {
+                        validAge: (value) => {
+                          if (!value) return 'Date of birth is required';
+                          const birthDate = new Date(value);
+                          const today = new Date();
+                          let age = today.getFullYear() - birthDate.getFullYear();
+                          const monthDiff = today.getMonth() - birthDate.getMonth();
+                          if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                            age--;
+                          }
+                          return age >= 16 || 'You must be at least 16 years old to join';
                         }
-                        defaultMonth={dateOfBirth || new Date(new Date().getFullYear() - 18, 0, 1)}
-                        fromYear={1900}
-                        toYear={new Date().getFullYear()}
-                        className="p-3"
-                      />
-                    </PopoverContent>
-                  </Popover>
-                  {dateError && (
-                    <p className="text-sm text-red-600">{dateError}</p>
+                      }
+                    })}
+                  />
+                  {errors.dateOfBirth && (
+                    <p className="text-sm text-red-600">{errors.dateOfBirth.message}</p>
                   )}
                 </div>
 
