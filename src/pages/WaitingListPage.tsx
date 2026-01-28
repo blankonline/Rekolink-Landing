@@ -60,7 +60,12 @@ export function WaitingListPage() {
     setApiError('');
 
     try {
-      const response = await fetch('https://api.rekolink.com/waitinglist/signup', {
+      // Use proxy in development, direct URL in production
+      const apiUrl = import.meta.env.DEV 
+        ? '/api/waitinglist/signup' 
+        : 'https://api.rekolink.com/waitinglist/signup';
+      
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
